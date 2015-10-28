@@ -1,87 +1,19 @@
-//
-//  Interactor
-//  Dialogue/Codealog|ue
-//
-
 import Cocoa
 
-typealias UserID = String
 
-
-struct UserEntity {
-    var name: String
-    var age: Int
-}
-
-
-class LocalDatamanager {
-    func fetchUser(id: UserID) -> UserEntity? {
-        switch id {
-        case "Peter":
-            return UserEntity(name: "Peter Pan", age: 12)
-        default:
-            return nil
-        }
-    }
-}
-
-
-class APIDatamanager {
-}
-
-
-//-- via interface -------------------------------------------------------------
-
-
-protocol FirstInput {
-    func getUserIdentity(id: UserID) -> UserEntity?
-
-    func performSomethingA()
-
-    func performSomethingB()
-}
-
-
-class FirstInteractor {
-    var localDatamanager: LocalDatamanager?
-    var apiDatamanager: APIDatamanager?
-    var output: FirstOutput?
-}
-
-
-extension FirstInteractor: FirstInput {
-    func getUserIdentity(id: UserID) -> UserEntity? {
-        return localDatamanager?.fetchUser(id)
-    }
-
-    func performSomethingA() {
-        print(__FUNCTION__)
-        output?.giveBackResponse("Hello")
-    }
-
-    func performSomethingB() {
-        print(__FUNCTION__)
-        output?.giveBackResponse("World")
-    }
-}
-
-
-//== boundary ==================================================================
-
-
-class FirstWireframe {
-    var interactor: FirstInteractor?
-    var presenter: FirstPresenter?
+class Wireframe_FIRST {
+    var interactor: Interactor_FIRST?
+    var presenter: Presenter_FIRST?
     var view: FirstViewI?
     var apiDatamanager: APIDatamanager?
     var localDatamanager: LocalDatamanager?
-    var stubWindow: FirstWC?
-    var preferencesWireframe: PreferencesWireframe?
+    var stubWindow: WindowController_FIRST?
+    var preferencesWireframe: Preferences.Wireframe?
 
     init() {
-        interactor = FirstInteractor()
-        presenter = FirstPresenter()
-        stubWindow = FirstWC()
+        interactor = Interactor_FIRST()
+        presenter = Presenter_FIRST()
+        stubWindow = WindowController_FIRST()
 
         interactor?.localDatamanager = LocalDatamanager()
         interactor?.apiDatamanager = APIDatamanager()
@@ -100,127 +32,27 @@ class FirstWireframe {
         stubWindow?.showWindow(nil)
     }
 
-    func presentSettings() {
-        preferencesWireframe = PreferencesWireframe()
+    func presentPreferences() {
+        preferencesWireframe = Preferences.Wireframe()
         preferencesWireframe?.show()
     }
 }
 
 
-class PreferencesWireframe {
-    var presenter: PreferencesPresenter?
-    var view: PreferencesViewI?
-    var window: PreferencesWC?
-
-    init() {
-        presenter = PreferencesPresenter()
-        window = PreferencesWC()
-
-        presenter?.view = window
-    }
-
-    func show() {
-        window?.showWindow(nil)
-    }
-}
-
-
-class PreferencesPresenter {
-    var view: PreferencesViewI?
-
-    var toggle: Bool = false
-
-    func specialClicked(value: Bool) {
-        toggle = value
-    }
-}
-
-
-protocol FirstOutput {
-    func giveBackResponse(s: String)
-}
-
-
-class FirstPresenter: FirstOutput {
-    var view: FirstViewI?
-    var interactor: FirstInput?
-    var wireframe: FirstWireframe?
-
-    var toggle: Bool = false
-
-    init() {
-        //do default init of view?
-    }
-
-    func toggleClicked(value: Int) {
-        toggle = value == 1
-    }
-
-    func preferencesClicked() {
-        wireframe?.presentSettings()
-    }
-
-    func actionClicked() {
-        if toggle {
-            interactor?.performSomethingA()
-        } else {
-            interactor?.performSomethingB()
-        }
-    }
-
-    func giveBackResponse(s: String) {
-        view?.setResultText(s)
-    }
-}
-
-
-//== boundary ==================================================================
-
-
-protocol PreferencesViewI {
-}
-
-
-class PreferencesWC: NSWindowController, NSWindowDelegate, PreferencesViewI {
-    @IBOutlet weak var special: NSButton!
-
-    var presenter: PreferencesPresenter?
-
-    override var windowNibName: String? {
-        return "PreferencesWindow"
-    }
-
-    @IBAction func specialClicked(sender: NSButton) {
-        presenter?.specialClicked(sender.integerValue == 1)
-    }
-}
-
-
-//== boundary ==================================================================
-
-
-protocol FirstViewI {
-    func setResultText(s: String)
-}
-
-
-//-- via interface -------------------------------------------------------------
-
-
-class FirstWC: NSWindowController, NSWindowDelegate, FirstViewI {
+class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI {
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var toggle: NSButton!
     @IBOutlet weak var action: NSButton!
     @IBOutlet weak var result: NSTextField!
 
-    var presenter: FirstPresenter?
+    var presenter: Presenter_FIRST?
 
     @IBAction func actionClicked(sender: NSButton) {
         presenter?.actionClicked()
     }
 
     @IBAction func preferencesClicked(sender: NSButton) {
-        presenter?.preferencesClicked()
+        presenter?.openPreferences()
     }
 
     @IBAction func toggleClicked(sender: NSButton) {
@@ -246,4 +78,71 @@ class FirstWC: NSWindowController, NSWindowDelegate, FirstViewI {
     func setResultText(s: String) {
         result.stringValue = s
     }
+}
+
+
+class Presenter_FIRST: FirstOutput {
+    var view: FirstViewI?
+    var interactor: FirstInput?
+    var wireframe: Wireframe_FIRST?
+
+    var toggle: Bool = false
+
+    func toggleClicked(value: Int) {
+        toggle = value == 1
+    }
+
+    func openPreferences() {
+        wireframe?.presentPreferences()
+    }
+
+    func actionClicked() {
+        if toggle {
+            interactor?.performSomethingA()
+        } else {
+            interactor?.performSomethingB()
+        }
+    }
+
+    func giveBackResponse(s: String) {
+        view?.setResultText(s)
+    }
+}
+
+
+//== INTERACTOR ===================================================
+
+
+class Interactor_FIRST: FirstInput {
+    var localDatamanager: LocalDatamanager?
+    var apiDatamanager: APIDatamanager?
+    var output: FirstOutput?
+
+    func getUserIdentity(id: UserID) -> UserEntity? {
+        return localDatamanager?.fetchUser(id)
+    }
+
+    func performSomethingA() {
+        output?.giveBackResponse("Hello")
+    }
+
+    func performSomethingB() {
+        output?.giveBackResponse("World")
+    }
+}
+
+
+class LocalDatamanager {
+	func fetchUser(id: UserID) -> UserEntity? {
+		switch id {
+		case "Peter":
+			return UserEntity(name: "Peter Pan", age: 12)
+		default:
+			return nil
+		}
+	}
+}
+
+
+class APIDatamanager {
 }

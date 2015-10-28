@@ -10,17 +10,11 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-
+	var wireframe: Wireframe_FIRST?
 
 	func applicationDidFinishLaunching(aNotification: NSNotification) {
-		// Insert code here to initialize your application
+		wireframe = Wireframe_FIRST()
+		wireframe?.show()
 	}
-
-	func applicationWillTerminate(aNotification: NSNotification) {
-		// Insert code here to tear down your application
-	}
-
-
 }
 
