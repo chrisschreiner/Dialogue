@@ -10,10 +10,10 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-	var wireframe: Wireframe_FIRST?
+	var wireframe: First.Wireframe?
 
 	func applicationDidFinishLaunching(aNotification: NSNotification) {
-		wireframe = Wireframe_FIRST()
+		wireframe = First.Wireframe()
 		wireframe?.show()
 	}
 }

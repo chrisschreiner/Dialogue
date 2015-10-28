@@ -2,31 +2,31 @@ import Cocoa
 
 
 class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI {
+    var eventHandler: FirstModuleInterface?
+
+    override var windowNibName: String? {
+        return "FirstWindow"
+    }
+
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var toggle: NSButton!
     @IBOutlet weak var action: NSButton!
     @IBOutlet weak var result: NSTextField!
 
-    var presenter: Presenter_FIRST?
-
     @IBAction func actionClicked(sender: NSButton) {
-        presenter?.actionClicked()
+        eventHandler?.submitPasteboardAsGist()
     }
 
     @IBAction func preferencesClicked(sender: NSButton) {
-        presenter?.openPreferences()
+        eventHandler?.openPreferences()
     }
 
     @IBAction func toggleClicked(sender: NSButton) {
-        presenter?.toggleClicked(sender.integerValue)
+        //eventHandler?.toggleClicked(sender.integerValue)
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-    }
-
-    override var windowNibName: String? {
-        return "FirstWindow"
     }
 
     override func windowDidLoad() {
@@ -46,7 +46,7 @@ class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI {
 struct First {
 
 
-    class Wireframe_FIRST {
+    class Wireframe {
         var interactor: Interactor?
         var presenter: Presenter?
         var view: FirstViewI?
@@ -55,7 +55,7 @@ struct First {
 
         init() {
             interactor = Interactor()
-            presenter = Presenter()
+            presenter = Presenter(wireframe: self)
             stubWindow = WindowController_FIRST()
 
             interactor?.localDatamanager = LocalDatamanager()
@@ -63,11 +63,10 @@ struct First {
 
             presenter?.interactor = interactor
             presenter?.view = stubWindow
-            presenter?.wireframe = self
 
             interactor?.output = presenter
 
-            stubWindow?.presenter = presenter
+            stubWindow?.eventHandler = presenter
         }
 
         func show() {
@@ -82,72 +81,44 @@ struct First {
     }
 
 
-    class Presenter: InteractorOutput_FIRST {
+    class Presenter: FirstModuleInterface, InteractorOutput_FIRST {
         var view: FirstViewI?
         var interactor: InteractorInput_FIRST?
-        var wireframe: Wireframe_FIRST?
+        let wireframe: Wireframe
 
+        //TODO: remove this
         var toggle: Bool = false
+
+        init(wireframe: First.Wireframe) {
+            self.wireframe = wireframe
+        }
 
         func toggleClicked(value: Int) {
             toggle = value == 1
         }
 
-        func openPreferences() {
-            wireframe?.presentPreferences()
-        }
-
         func actionClicked() {
-            if toggle {
-                interactor?.performSomethingA()
-            } else {
-                interactor?.performSomethingB()
-            }
+            //            if toggle {
+            //                interactor?.performSomethingA()
+            //            } else {
+            //                interactor?.performSomethingB()
+            //            }
         }
 
         func giveBackResponse(s: String) {
             view?.setResultText(s)
         }
-    }
 
+        // -- FirstModuleInterface -----------------------------------
 
-    //== INTERACTOR ===================================================
-
-
-    class Interactor: InteractorInput_FIRST {
-        var localDatamanager: LocalDatamanager?
-        var apiDatamanager: APIDatamanager?
-        var output: InteractorOutput_FIRST?
-
-        func getUserIdentity(id: UserID) -> UserEntity? {
-            return localDatamanager?.fetchUser(id)
+        func submitPasteboardAsGist() {
+            // where should this go?
+            interactor?.submitToGistService()
         }
 
-        func performSomethingA() {
-            output?.giveBackResponse("Hello")
-        }
-
-        func performSomethingB() {
-            output?.giveBackResponse("World")
+        func openPreferences() {
+            wireframe.presentPreferences()
         }
     }
-
-
-    class LocalDatamanager {
-        func fetchUser(id: UserID) -> UserEntity? {
-            switch id {
-            case "Peter":
-                return UserEntity(name: "Peter Pan", age: 12)
-            default:
-                return nil
-            }
-        }
-    }
-
-
-    class APIDatamanager {
-    }
-
-
 }
 

@@ -119,7 +119,7 @@ struct Preferences {
             interactor?.setInitialValues()
         }
 
-        // -- Called from the Wireframe ----------------------------------------
+        // -- InteractorOutput_PREFERENCES --------------------------------------
 
         func setActiveGistService(index: Int) {
             view?.setGistServiceValue(index)
