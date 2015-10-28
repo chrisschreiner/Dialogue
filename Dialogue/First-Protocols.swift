@@ -1,5 +1,4 @@
-
-protocol FirstInput {
+protocol InteractorInput_FIRST {
     func getUserIdentity(id: UserID) -> UserEntity?
 
     func performSomethingA()
@@ -8,7 +7,7 @@ protocol FirstInput {
 }
 
 
-protocol FirstOutput {
+protocol InteractorOutput_FIRST {
     func giveBackResponse(s: String)
 }
 
