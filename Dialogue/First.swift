@@ -43,7 +43,7 @@ class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI {
 }
 
 
-struct First {
+struct Main {
 
 
     class Wireframe {
@@ -52,21 +52,21 @@ struct First {
         var view: FirstViewI?
         var stubWindow: WindowController_FIRST?
         var preferencesWireframe: Preferences.Wireframe?
+        //weak var globalDatamanager: GlobalDatamanager?
 
-        init() {
+        init(dataManager: LocalDatamanager) {
             interactor = Interactor()
             presenter = Presenter(wireframe: self)
             stubWindow = WindowController_FIRST()
 
-            interactor?.localDatamanager = LocalDatamanager()
+            stubWindow?.eventHandler = presenter
+
+            interactor?.localDatamanager = dataManager
             interactor?.apiDatamanager = APIDatamanager()
+            interactor?.output = presenter
 
             presenter?.interactor = interactor
             presenter?.view = stubWindow
-
-            interactor?.output = presenter
-
-            stubWindow?.eventHandler = presenter
         }
 
         func show() {
@@ -75,8 +75,12 @@ struct First {
         }
 
         func presentPreferences() {
-            preferencesWireframe = Preferences.Wireframe()
-            preferencesWireframe?.show()
+            if let dataMan = interactor?.localDatamanager {
+                preferencesWireframe = Preferences.Wireframe(dataManager: dataMan)
+                preferencesWireframe?.show()
+            } else {
+                preconditionFailure()
+            }
         }
     }
 
@@ -89,7 +93,7 @@ struct First {
         //TODO: remove this
         var toggle: Bool = false
 
-        init(wireframe: First.Wireframe) {
+        init(wireframe: Main.Wireframe) {
             self.wireframe = wireframe
         }
 
@@ -120,5 +124,7 @@ struct First {
             wireframe.presentPreferences()
         }
     }
+
+
 }
 

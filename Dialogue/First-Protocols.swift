@@ -1,11 +1,4 @@
 protocol InteractorInput_FIRST {
-    //    func getUserIdentity(id: UserID) -> UserEntity?
-    //
-    //    func performSomethingA()
-    //
-    //    func performSomethingB()
-
-
     func submitToGistService()
 }
 

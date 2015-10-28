@@ -67,8 +67,9 @@ struct Preferences {
         var view: PreferencesViewI?
         var window: WindowController_PREFERENCES?
         var interactor: Interactor?
+        //weak var globalDatamanager: GlobalDatamanager?
 
-        init() {
+        init(dataManager: LocalDatamanager) {
             presenter = Presenter(wireframe: self)
             window = WindowController_PREFERENCES()
             interactor = Interactor()
@@ -77,7 +78,7 @@ struct Preferences {
             presenter?.interactor = interactor
 
             interactor?.apiDatamanager = APIDataManager()
-            interactor?.localDatamanager = LocalDataManager()
+            interactor?.localDatamanager = dataManager
             interactor?.output = presenter
 
             window?.eventHandler = presenter
@@ -147,7 +148,7 @@ struct Preferences {
 
 
     class Interactor: InteractorInput_PREFERENCES {
-        var localDatamanager: LocalDataManager?
+        var localDatamanager: LocalDatamanager?
         var apiDatamanager: APIDataManager?
         var output: InteractorOutput_PREFERENCES?
 
@@ -176,35 +177,7 @@ struct Preferences {
     }
 
 
-    class LocalDataManager {
-        var userDefaults = NSUserDefaults.standardUserDefaults()
 
-        var activeGistService: Int {
-            get {
-                return userDefaults.integerForKey("gistServiceIndex") ?? 0
-            }
-            set {
-                userDefaults.setInteger(newValue, forKey: "gistServiceIndex")
-            }
-        }
-        var activeShortenService: Int {
-            get {
-                return userDefaults.integerForKey("shortenServiceIndex") ?? 0
-            }
-            set {
-                userDefaults.setInteger(newValue, forKey: "shortenServiceIndex")
-            }
-        }
-        var secretGists: Bool {
-            get {
-                return userDefaults.boolForKey("secretGists") ?? true
-            }
-            set {
-                print(__FUNCTION__)
-                userDefaults.setBool(newValue, forKey: "secretGists")
-            }
-        }
-    }
 
 
     class APIDataManager {

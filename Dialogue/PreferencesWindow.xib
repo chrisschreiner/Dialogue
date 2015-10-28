@@ -10,7 +10,6 @@
                 <outlet property="gistService" destination="cfO-xy-lgZ" id="KCV-lY-SCE"/>
                 <outlet property="secretGists" destination="VgQ-AO-3fu" id="wU1-fT-xfa"/>
                 <outlet property="shortenService" destination="dAt-yU-HJX" id="I8a-z8-Ud2"/>
-                <outlet property="special" destination="VgQ-AO-3fu" id="9g7-4o-0Dm"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
