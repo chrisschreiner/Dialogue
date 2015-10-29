@@ -177,9 +177,6 @@ struct Preferences {
     }
 
 
-
-
-
     class APIDataManager {
         //for calling outside the app, like web-services and other external API
     }

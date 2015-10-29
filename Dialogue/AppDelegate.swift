@@ -2,9 +2,6 @@
 //  AppDelegate.swift
 //  Dialogue
 //
-//  Created by Chris Patrick Schreiner on 23/10/15.
-//  Copyright © 2015 Chris Patrick Schreiner. All rights reserved.
-//
 
 import Cocoa
 
@@ -15,8 +12,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var globalDatamanager = LocalDatamanager()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-
-
         wireframe = Main.Wireframe(dataManager: globalDatamanager)
         wireframe?.show()
     }
@@ -54,7 +49,16 @@ class LocalDatamanager {
         }
     }
 
-    //TODO:Invent mechanism to notifyWorld when recentFiles changes
+    func addRecentFile(rf: RecentFile) {
+        recentFiles?.append(rf)
+        notifyWorld()
+    }
+
+    func clearRecentFiles() {
+        recentFiles?.removeAll(keepCapacity: false)
+        notifyWorld()
+    }
+
     var recentFiles: [RecentFile]? = []
 
     func notifyWorld() {

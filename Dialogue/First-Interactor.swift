@@ -11,7 +11,8 @@ extension Main {
 
         func submitToGistService() {
             if let dataMan = localDatamanager {
-                dataMan.recentFiles! += [RecentFile(filename: "sample", url: "url")]
+                let rf = RecentFile(filename: "sample", url: "url")
+                dataMan.addRecentFile(rf)
                 apiDatamanager?.processIt(dataMan)
             }
         }
@@ -35,7 +36,7 @@ extension Main {
         }
 
         func clearRecentFiles() {
-            localDatamanager?.recentFiles?.removeAll(keepCapacity: false)
+            localDatamanager?.clearRecentFiles()
         }
 
         func createStringOfOptions() -> String {
@@ -52,8 +53,6 @@ extension Main {
             return "\(gist)\n\(shorten)\n\(secret ? "Secret" : "public")"
         }
     }
-
-
 
 
     struct Bunny {
