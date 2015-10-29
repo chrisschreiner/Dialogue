@@ -1,10 +1,10 @@
 import Cocoa
 
 
-class Interactor_MAIN: InteractorInput_FIRST {
+class Interactor_MAIN: InteractorInput_MAIN {
     var localDatamanager: LocalDatamanager?
     var apiDatamanager: APIDatamanager_MAIN?
-    var output: InteractorOutput_FIRST?
+    var output: InteractorOutput_MAIN?
 
     func submitToGistService() {
         if let dataMan = localDatamanager {

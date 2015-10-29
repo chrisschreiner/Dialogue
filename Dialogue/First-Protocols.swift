@@ -1,7 +1,7 @@
 import Cocoa
 
 
-protocol ViewInterface_FIRST {
+protocol ViewInterface_MAIN {
     func setResultText(s: String)
 
     func setDatasourceForRecentFiles(datasource: NSTableViewDataSource)
@@ -12,7 +12,7 @@ protocol ViewInterface_FIRST {
 }
 
 
-protocol ModuleInterface_FIRST {
+protocol ModuleInterface_MAIN {
     func openPreferences()
 
     func submitPasteboardAsGist()
@@ -23,7 +23,7 @@ protocol ModuleInterface_FIRST {
 }
 
 
-protocol InteractorInput_FIRST {
+protocol InteractorInput_MAIN {
     func submitToGistService()
 
     func countRecentFiles() -> Int
@@ -36,6 +36,5 @@ protocol InteractorInput_FIRST {
 }
 
 
-protocol InteractorOutput_FIRST {
-    func giveBackResponse(s: String)
+protocol InteractorOutput_MAIN {
 }

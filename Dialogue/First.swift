@@ -2,7 +2,7 @@ import Cocoa
 
 
 class WindowController_MAIN: NSWindowController, NSWindowDelegate {
-    var eventHandler: ModuleInterface_FIRST?
+    var eventHandler: ModuleInterface_MAIN?
 
     override var windowNibName: String? {
         return "FirstWindow"
@@ -49,7 +49,7 @@ class WindowController_MAIN: NSWindowController, NSWindowDelegate {
 }
 
 
-extension WindowController_MAIN: ViewInterface_FIRST {
+extension WindowController_MAIN: ViewInterface_MAIN {
     func setResultText(s: String) {
         result.stringValue = s
     }
@@ -71,7 +71,7 @@ extension WindowController_MAIN: ViewInterface_FIRST {
 class Wireframe_MAIN {
     var interactor: Interactor_MAIN?
     var presenter: Presenter_MAIN?
-    var view: ViewInterface_FIRST?
+    var view: ViewInterface_MAIN?
     var stubWindow: WindowController_MAIN?
     var preferencesWireframe: Wireframe_PREFERENCES?
 
@@ -135,7 +135,7 @@ extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
 }
 
 
-extension Presenter_MAIN: ModuleInterface_FIRST {
+extension Presenter_MAIN: ModuleInterface_MAIN {
     func openPreferences() {
         wireframe.presentPreferences()
     }
@@ -161,17 +161,14 @@ extension Presenter_MAIN: ModuleInterface_FIRST {
 }
 
 
-extension Presenter_MAIN: InteractorOutput_FIRST {
-    //Dummy function
-    func giveBackResponse(s: String) {
-        view?.setResultText(s)
-    }
+extension Presenter_MAIN: InteractorOutput_MAIN {
+
 }
 
 
 class Presenter_MAIN: NSObject {
-    var view: ViewInterface_FIRST?
-    var interactor: InteractorInput_FIRST?
+    var view: ViewInterface_MAIN?
+    var interactor: InteractorInput_MAIN?
     let wireframe: Wireframe_MAIN
 
     init(wireframe: Wireframe_MAIN) {
