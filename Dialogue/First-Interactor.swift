@@ -1,10 +1,6 @@
 import Cocoa
 
 
-protocol GlobalDataProtocol {
-}
-
-
 extension Main {
 
 
@@ -14,25 +10,50 @@ extension Main {
         var output: InteractorOutput_FIRST?
 
         func submitToGistService() {
-            apiDatamanager?.processIt(localDatamanager!)
+            if let dataMan = localDatamanager {
+                dataMan.recentFiles! += [RecentFile(filename: "sample", url: "url")]
+                apiDatamanager?.processIt(dataMan)
+            }
         }
-    }
 
+        func countRecentFiles() -> Int {
+            if let dataMan = localDatamanager, recentFiles = dataMan.recentFiles {
+                return recentFiles.count
+            }
+            return 0
+        }
 
-    class APIDatamanager {
-        var globalAccessData: GlobalDataProtocol?
-        func processIt(dataManager: LocalDatamanager) {
+        func recentFileEntry(index: Int) -> Main.Presenter.Sample {
+            if let dataMan = localDatamanager, recentFiles = dataMan.recentFiles {
+                let a = recentFiles[index].filename
+                let b = recentFiles[index].url.characters.count
 
-            //?How do I access the Preferences-Module.LocalDataManager instance ?
-            //!Turn the LocalDataManager into a GlobalDatamanager by narrow protocols
+                let s = Main.Presenter.Sample(a: a, b: b)
+                return s
+            }
+            preconditionFailure()
+        }
+
+        func clearRecentFiles() {
+            localDatamanager?.recentFiles?.removeAll(keepCapacity: false)
+        }
+
+        func createStringOfOptions() -> String {
+            guard let dataManager = localDatamanager else {
+                preconditionFailure()
+            }
 
             let gist = GistService(rawValue: dataManager.activeGistService ?? 0)!
             let shorten = ShortenService(rawValue: dataManager.activeShortenService ?? 0)!
             let secret = dataManager.secretGists ?? true
 
-            print("processed the gist with: \(gist) \(shorten) \(secret)")
+            //let s = (localDatamanager!.secretGists ? "Secret" : "Public") + "\n" + "\(localDatamanager!.activeGistService)"
+
+            return "\(gist)\n\(shorten)\n\(secret ? "Secret" : "public")"
         }
     }
+
+
 
 
     struct Bunny {
@@ -45,37 +66,18 @@ extension Main {
 }
 
 
-/*
-struct GistOptions {
-    var gistHTTPBody: [String:String] {
-        return [
-                "description": self.options.description,
-                "public": !self.options.publicGist,
-                "files": [self.options.fileName: ["content": content]],
-        ]
+class APIDatamanager {
+    func processIt(dataManager: LocalDatamanager) {
+
+        //?How do I access the Preferences-Module.LocalDataManager instance ?
+        //!Turn the LocalDataManager into a GlobalDatamanager by narrow protocols
+
+        let gist = GistService(rawValue: dataManager.activeGistService ?? 0)!
+        let shorten = ShortenService(rawValue: dataManager.activeShortenService ?? 0)!
+        let secret = dataManager.secretGists ?? true
+
+        //            print("processed the gist with: \(gist) \(shorten) \(secret)")
+        //            print("Total recent: \(dataManager.recentFiles!.count) where the last one was: \(dataManager.recentFiles!.last)")
+        print(getPasteboardItems())
     }
 }
-
-
-func makeRequest(updateGist: Bool, gistID: String, gistOptions: GistOptions) -> NSMutableURLRequest {
-    let request = NSMutableURLRequest()
-    if updateGist {
-        let updateURL = connectionURL.URLByAppendingPathComponent(gistID!)
-        request = NSMutableURLRequest(URL: updateURL)
-        request.HTTPMethod = "PATCH"
-    } else {
-        request = NSMutableURLRequest(URL: connectionURL)
-        request.HTTPMethod = "POST"
-    }
-
-    request.HTTPBody = try! JSON(gistOptions.gistHTTPBody.rawData())
-    request.addValue("application/vnd.github.v3+json", forHTTPHeaderField: "Accept")
-
-    if let token = oauth.getToken() {
-        request.addValue("token \(token)", forHTTPHeaderField: "Authorization")
-    }
-
-    return request
-}
-
-*/

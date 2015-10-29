@@ -49,7 +49,7 @@ class LocalDatamanager {
             userDefaults.setBool(newValue, forKey: "secretGists")
         }
     }
-    var recentFiles: [RecentFile]?
+    var recentFiles: [RecentFile]? = []
 }
 
 

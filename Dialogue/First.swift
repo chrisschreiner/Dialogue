@@ -1,7 +1,7 @@
 import Cocoa
 
 
-class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI {
+class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI, NSTableViewDelegate {
     var eventHandler: FirstModuleInterface?
 
     override var windowNibName: String? {
@@ -11,10 +11,26 @@ class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI {
     @IBOutlet weak var name: NSTextField!
     @IBOutlet weak var toggle: NSButton!
     @IBOutlet weak var action: NSButton!
+    @IBOutlet weak var action1: NSButton!
+    @IBOutlet weak var action2: NSButton!
+    @IBOutlet weak var clearRecentFiles: NSButton!
     @IBOutlet weak var result: NSTextField!
+    @IBOutlet weak var table: NSTableView!
+    @IBOutlet weak var constantOutput: NSTextField!
+    @IBAction func clearRecentFiles(sender: NSButton) {
+        eventHandler?.clearRecentFiles()
+        table.reloadData()
+    }
+
+    @IBAction func action1(sender: NSButton) {
+    }
+
+    @IBAction func action2(sender: NSButton) {
+    }
 
     @IBAction func actionClicked(sender: NSButton) {
         eventHandler?.submitPasteboardAsGist()
+        table.reloadData()
     }
 
     @IBAction func preferencesClicked(sender: NSButton) {
@@ -29,9 +45,15 @@ class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI {
         super.awakeFromNib()
     }
 
+    func setDatasourceAndDelegateForTable(tds tds: NSTableViewDataSource, tvd: NSTableViewDelegate) {
+        table.setDelegate(tvd)
+        table.setDataSource(tds)
+    }
+
     override func windowDidLoad() {
         super.windowDidLoad()
         self.window?.delegate = self
+        eventHandler?.viewIsReady()
     }
 
     func windowWillClose(notification: NSNotification) {
@@ -39,6 +61,14 @@ class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI {
 
     func setResultText(s: String) {
         result.stringValue = s
+    }
+
+    func refreshAndReload() {
+        //        table.reloadData()
+    }
+
+    func updateConstantOutput(s: String) {
+        constantOutput.stringValue = s
     }
 }
 
@@ -85,7 +115,7 @@ struct Main {
     }
 
 
-    class Presenter: FirstModuleInterface, InteractorOutput_FIRST {
+    class Presenter: NSObject, NSTableViewDataSource, NSTableViewDelegate, FirstModuleInterface, InteractorOutput_FIRST {
         var view: FirstViewI?
         var interactor: InteractorInput_FIRST?
         let wireframe: Wireframe
@@ -102,11 +132,6 @@ struct Main {
         }
 
         func actionClicked() {
-            //            if toggle {
-            //                interactor?.performSomethingA()
-            //            } else {
-            //                interactor?.performSomethingB()
-            //            }
         }
 
         func giveBackResponse(s: String) {
@@ -118,10 +143,55 @@ struct Main {
         func submitPasteboardAsGist() {
             // where should this go?
             interactor?.submitToGistService()
+
+            if let options = interactor?.createStringOfOptions() {
+                view?.updateConstantOutput(options)
+            }
+        }
+
+        func clearRecentFiles() {
+            interactor?.clearRecentFiles()
         }
 
         func openPreferences() {
             wireframe.presentPreferences()
+        }
+
+        // --
+
+        func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+            return interactor?.countRecentFiles() ?? 0
+        }
+
+        let column1 = "column1"
+        let column2 = "column2"
+
+
+        struct Sample {
+            let a: String
+            let b: Int
+        }
+
+
+        func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+            let t = NSTextField()
+            t.bordered = false
+            t.drawsBackground = false
+
+            let sample = Sample(a: "test", b: row)
+
+            switch tableColumn!.identifier {
+            case column1:
+                t.stringValue = sample.a
+            default:
+                t.stringValue = "\(sample.b)"
+            }
+
+            return t
+        }
+
+        func viewIsReady() {
+            view?.setDatasourceAndDelegateForTable(tds: self, tvd: self)
         }
     }
 
