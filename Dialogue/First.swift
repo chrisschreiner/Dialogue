@@ -115,7 +115,7 @@ extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let column1RecentFiles = "column1"
-        let column2RecentFiles = "column2"
+        //let column2RecentFiles = "column2"
 
         let t = NSTextField()
         t.bordered = false

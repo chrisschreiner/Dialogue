@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5A4160503A10716081F9A2F3 /* First-Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A416F1104FCE8957B6C8CAE /* First-Interactor.swift */; };
-		5A416C924F2407A1751A8660 /* First-APIDatamanager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A416A0129F6F028D00588AF /* First-APIDatamanager.swift */; };
 		8313A9D11BDA0AB7005B365C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8313A9D01BDA0AB7005B365C /* AppDelegate.swift */; };
 		8313A9D51BDA0AB7005B365C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8313A9D41BDA0AB7005B365C /* Assets.xcassets */; };
 		8313A9D81BDA0AB7005B365C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8313A9D61BDA0AB7005B365C /* Main.storyboard */; };
@@ -20,10 +19,10 @@
 		8373D8831BDFE5670018B0ED /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8373D8821BDFE5670018B0ED /* PreferencesWindow.xib */; };
 		8373D8861BDFFE5C0018B0ED /* Datamanagers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373D8851BDFFE5C0018B0ED /* Datamanagers.swift */; };
 		837905CB1BE22BF60090E0ED /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837905CA1BE22BF60090E0ED /* Utilities.swift */; };
+		837905CD1BE25F4F0090E0ED /* Preferences-Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837905CC1BE25F4F0090E0ED /* Preferences-Interactor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5A416A0129F6F028D00588AF /* First-APIDatamanager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "First-APIDatamanager.swift"; sourceTree = "<group>"; };
 		5A416F1104FCE8957B6C8CAE /* First-Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "First-Interactor.swift"; sourceTree = "<group>"; };
 		8313A9CD1BDA0AB7005B365C /* Dialogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dialogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8313A9D01BDA0AB7005B365C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +37,7 @@
 		8373D8821BDFE5670018B0ED /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
 		8373D8851BDFFE5C0018B0ED /* Datamanagers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datamanagers.swift; sourceTree = "<group>"; };
 		837905CA1BE22BF60090E0ED /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		837905CC1BE25F4F0090E0ED /* Preferences-Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Preferences-Interactor.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +88,6 @@
 				8373D8751BDF72C10018B0ED /* First-Protocols.swift */,
 				8373D8771BDF72C60018B0ED /* First.swift */,
 				5A416F1104FCE8957B6C8CAE /* First-Interactor.swift */,
-				5A416A0129F6F028D00588AF /* First-APIDatamanager.swift */,
 			);
 			name = First;
 			sourceTree = "<group>";
@@ -98,6 +97,7 @@
 			children = (
 				8373D87E1BDF74060018B0ED /* Preferences-Protocols.swift */,
 				8373D87C1BDF730F0018B0ED /* Preferences.swift */,
+				837905CC1BE25F4F0090E0ED /* Preferences-Interactor.swift */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -191,8 +191,8 @@
 				8373D8781BDF72C60018B0ED /* First.swift in Sources */,
 				8373D8861BDFFE5C0018B0ED /* Datamanagers.swift in Sources */,
 				837905CB1BE22BF60090E0ED /* Utilities.swift in Sources */,
+				837905CD1BE25F4F0090E0ED /* Preferences-Interactor.swift in Sources */,
 				5A4160503A10716081F9A2F3 /* First-Interactor.swift in Sources */,
-				5A416C924F2407A1751A8660 /* First-APIDatamanager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

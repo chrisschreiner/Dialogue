@@ -63,8 +63,8 @@ class APIDatamanager_MAIN {
         let shorten = ShortenService(rawValue: dataManager.activeShortenService ?? 0)!
         let secret = dataManager.secretGists ?? true
 
-        //print("processed the gist with: \(gist) \(shorten) \(secret)")
-        //print("Total recent: \(dataManager.recentFiles!.count) where the last one was: \(dataManager.recentFiles!.last)")
+        print("processed the gist with: \(gist) \(shorten) \(secret)")
+        print("Total recent: \(dataManager.recentFiles!.count) where the last one was: \(dataManager.recentFiles!.last)")
         print(getPasteboardItems())
     }
 }
