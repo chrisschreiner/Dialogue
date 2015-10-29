@@ -8,11 +8,11 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var wireframe: Main.Wireframe?
+    var wireframe: Wireframe_MAIN?
     var globalDatamanager = LocalDatamanager()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        wireframe = Main.Wireframe(dataManager: globalDatamanager)
+        wireframe = Wireframe_MAIN(dataManager: globalDatamanager)
         wireframe?.show()
     }
 }

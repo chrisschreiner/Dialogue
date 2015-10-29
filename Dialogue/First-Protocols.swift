@@ -1,7 +1,18 @@
 import Cocoa
 
 
-protocol FirstModuleInterface {
+protocol ViewInterface_FIRST {
+    func setResultText(s: String)
+
+    func setDatasourceForRecentFiles(datasource: NSTableViewDataSource)
+
+    func setDelegateForRecentFiles(delegate: NSTableViewDelegate)
+
+    func updateConstantOutput(s: String)
+}
+
+
+protocol ModuleInterface_FIRST {
     func openPreferences()
 
     func submitPasteboardAsGist()
@@ -28,16 +39,3 @@ protocol InteractorInput_FIRST {
 protocol InteractorOutput_FIRST {
     func giveBackResponse(s: String)
 }
-
-
-protocol FirstViewI {
-    func setResultText(s: String)
-
-    func setDatasourceForRecentFiles(datasource: NSTableViewDataSource)
-
-    func setDelegateForRecentFiles(delegate: NSTableViewDelegate)
-
-    func updateConstantOutput(s: String)
-}
-
-

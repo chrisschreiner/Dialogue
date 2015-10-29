@@ -1,7 +1,7 @@
 import Cocoa
 
 
-protocol PreferencesViewI {
+protocol ViewInterface_PREFERENCES {
     func gistServicePopupButton() -> NSPopUpButton
 
     func shortenServicePopupButton() -> NSPopUpButton
@@ -14,7 +14,7 @@ protocol PreferencesViewI {
 }
 
 
-protocol PreferencesModuleInterface {
+protocol ModuleInterface_PREFERENCES {
     func toggleSecretGists(value: Bool) // A
 
     func selectGistService(serviceIndex: Int)

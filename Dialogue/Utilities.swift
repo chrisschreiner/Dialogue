@@ -4,6 +4,13 @@ import Cocoa
 typealias UserID = String
 
 
+struct Bunny {
+    let gist: GistService
+    let shorten: ShortenService
+    let secret: Bool
+}
+
+
 struct Sample {
     let a: String
     let b: Int
