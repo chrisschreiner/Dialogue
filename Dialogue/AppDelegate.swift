@@ -15,6 +15,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var globalDatamanager = LocalDatamanager()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+
+
         wireframe = Main.Wireframe(dataManager: globalDatamanager)
         wireframe?.show()
     }
@@ -30,6 +32,7 @@ class LocalDatamanager {
         }
         set {
             userDefaults.setInteger(newValue, forKey: "gistServiceIndex")
+            notifyWorld()
         }
     }
     var activeShortenService: Int {
@@ -38,6 +41,7 @@ class LocalDatamanager {
         }
         set {
             userDefaults.setInteger(newValue, forKey: "shortenServiceIndex")
+            notifyWorld()
         }
     }
     var secretGists: Bool {
@@ -45,11 +49,17 @@ class LocalDatamanager {
             return userDefaults.boolForKey("secretGists") ?? true
         }
         set {
-            print(__FUNCTION__)
             userDefaults.setBool(newValue, forKey: "secretGists")
+            notifyWorld()
         }
     }
+
+    //TODO:Invent mechanism to notifyWorld when recentFiles changes
     var recentFiles: [RecentFile]? = []
+
+    func notifyWorld() {
+        NSNotificationCenter.defaultCenter().postNotificationName("OptionsUpdated", object: nil)
+    }
 }
 
 

@@ -143,10 +143,6 @@ struct Main {
         func submitPasteboardAsGist() {
             // where should this go?
             interactor?.submitToGistService()
-
-            if let options = interactor?.createStringOfOptions() {
-                view?.updateConstantOutput(options)
-            }
         }
 
         func clearRecentFiles() {
@@ -192,6 +188,14 @@ struct Main {
 
         func viewIsReady() {
             view?.setDatasourceAndDelegateForTable(tds: self, tvd: self)
+            //TODO:Tear down observer somewhere appropriate
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateOptions:"), name: "OptionsUpdated", object: nil)
+        }
+
+        func updateOptions(sender: NSNotification) {
+            if let options = interactor?.createStringOfOptions() {
+                view?.updateConstantOutput(options)
+            }
         }
     }
 
