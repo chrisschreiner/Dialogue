@@ -74,10 +74,8 @@
 				8313A9D41BDA0AB7005B365C /* Assets.xcassets */,
 				8313A9D61BDA0AB7005B365C /* Main.storyboard */,
 				8313A9D91BDA0AB7005B365C /* Info.plist */,
-				8373D8801BDFB18E0018B0ED /* FirstWindow.xib */,
-				8373D8821BDFE5670018B0ED /* PreferencesWindow.xib */,
+				837905CE1BE261170090E0ED /* Common */,
 				8373D8791BDF72CB0018B0ED /* Modules */,
-				837905CA1BE22BF60090E0ED /* Utilities.swift */,
 			);
 			path = Dialogue;
 			sourceTree = "<group>";
@@ -85,6 +83,7 @@
 		83310DFF1BE0F95900C948D9 /* First */ = {
 			isa = PBXGroup;
 			children = (
+				8373D8801BDFB18E0018B0ED /* FirstWindow.xib */,
 				8373D8751BDF72C10018B0ED /* First-Protocols.swift */,
 				8373D8771BDF72C60018B0ED /* First.swift */,
 				5A416F1104FCE8957B6C8CAE /* First-Interactor.swift */,
@@ -95,6 +94,7 @@
 		83310E001BE0F98C00C948D9 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				8373D8821BDFE5670018B0ED /* PreferencesWindow.xib */,
 				8373D87E1BDF74060018B0ED /* Preferences-Protocols.swift */,
 				8373D87C1BDF730F0018B0ED /* Preferences.swift */,
 				837905CC1BE25F4F0090E0ED /* Preferences-Interactor.swift */,
@@ -107,9 +107,17 @@
 			children = (
 				83310DFF1BE0F95900C948D9 /* First */,
 				83310E001BE0F98C00C948D9 /* Preferences */,
-				8373D8851BDFFE5C0018B0ED /* Datamanagers.swift */,
 			);
 			name = Modules;
+			sourceTree = "<group>";
+		};
+		837905CE1BE261170090E0ED /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				837905CA1BE22BF60090E0ED /* Utilities.swift */,
+				8373D8851BDFFE5C0018B0ED /* Datamanagers.swift */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
