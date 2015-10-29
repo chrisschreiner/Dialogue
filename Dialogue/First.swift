@@ -1,8 +1,9 @@
 import Cocoa
 
 
-class WindowController_MAIN: NSWindowController, NSWindowDelegate {
+class View_MAIN: NSWindowController, NSWindowDelegate {
     var eventHandler: ModuleInterface_MAIN?
+    var viewLifeCycle: ViewLifeCycle?
 
     override var windowNibName: String? {
         return "FirstWindow"
@@ -41,7 +42,7 @@ class WindowController_MAIN: NSWindowController, NSWindowDelegate {
     override func windowDidLoad() {
         super.windowDidLoad()
         self.window?.delegate = self
-        eventHandler?.viewIsReady()
+        viewLifeCycle?.viewIsReady()
     }
 
     func windowWillClose(notification: NSNotification) {
@@ -49,7 +50,7 @@ class WindowController_MAIN: NSWindowController, NSWindowDelegate {
 }
 
 
-extension WindowController_MAIN: ViewInterface_MAIN {
+extension View_MAIN: ViewInterface_MAIN {
     func setResultText(s: String) {
         result.stringValue = s
     }
@@ -71,28 +72,27 @@ extension WindowController_MAIN: ViewInterface_MAIN {
 class Wireframe_MAIN {
     var interactor: Interactor_MAIN?
     var presenter: Presenter_MAIN?
-    var view: ViewInterface_MAIN?
-    var stubWindow: WindowController_MAIN?
+    var view: View_MAIN?
     var preferencesWireframe: Wireframe_PREFERENCES?
 
     init(dataManager: LocalDatamanager) {
         interactor = Interactor_MAIN()
         presenter = Presenter_MAIN(wireframe: self)
-        stubWindow = WindowController_MAIN()
-
-        stubWindow?.eventHandler = presenter
+        view = View_MAIN()
+        view?.viewLifeCycle = presenter //TODO:Could this be handled by the wireframe?
+        view?.eventHandler = presenter
 
         interactor?.localDatamanager = dataManager
         interactor?.apiDatamanager = APIDatamanager_MAIN()
-        interactor?.output = presenter
+        interactor?.output = presenter //no functions yet
 
         presenter?.interactor = interactor
-        presenter?.view = stubWindow
+        presenter?.view = view
     }
 
     func show() {
         /// Who should show - wireframe or presenter?
-        stubWindow?.showWindow(nil)
+        view?.showWindow(nil)
     }
 
     func presentPreferences() {
@@ -148,7 +148,14 @@ extension Presenter_MAIN: ModuleInterface_MAIN {
     func clearRecentFiles() {
         interactor?.clearRecentFiles()
     }
+}
 
+
+extension Presenter_MAIN: InteractorOutput_MAIN {
+}
+
+
+extension Presenter_MAIN: ViewLifeCycle {
     func viewIsReady() {
         view?.setDatasourceForRecentFiles(self)
         view?.setDelegateForRecentFiles(self)
@@ -158,11 +165,6 @@ extension Presenter_MAIN: ModuleInterface_MAIN {
         n.addObserver(self, selector: Selector("updateOptions:"), name: NotificationNameOptionsUpdated, object: nil)
         updateConstantOptionsField()
     }
-}
-
-
-extension Presenter_MAIN: InteractorOutput_MAIN {
-
 }
 
 

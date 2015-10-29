@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="WindowController_PREFERENCES" customModule="Dialogue" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="View_PREFERENCES" customModule="Dialogue" customModuleProvider="target">
             <connections>
                 <outlet property="gistService" destination="cfO-xy-lgZ" id="KCV-lY-SCE"/>
                 <outlet property="secretGists" destination="VgQ-AO-3fu" id="wU1-fT-xfa"/>

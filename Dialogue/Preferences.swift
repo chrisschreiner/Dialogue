@@ -1,8 +1,9 @@
 import Cocoa
 
 
-class WindowController_PREFERENCES: NSWindowController, NSWindowDelegate {
+class View_PREFERENCES: NSWindowController, NSWindowDelegate {
     var eventHandler: ModuleInterface_PREFERENCES?
+    var viewLifeCycle: ViewLifeCycle?
 
     override var windowNibName: String? {
         return "PreferencesWindow"
@@ -26,12 +27,12 @@ class WindowController_PREFERENCES: NSWindowController, NSWindowDelegate {
 
     override func windowDidLoad() {
         //TODO:find a proper place for this (awakeFromNib/prepare/here)
-        eventHandler?.viewIsReady()
+        viewLifeCycle?.viewIsReady()
     }
 }
 
 
-extension WindowController_PREFERENCES: ViewInterface_PREFERENCES {
+extension View_PREFERENCES: ViewInterface_PREFERENCES {
     func setSecretGistsValue(value: Bool) {
         secretGists.integerValue = value ? 1 : 0
     }
@@ -57,13 +58,13 @@ extension WindowController_PREFERENCES: ViewInterface_PREFERENCES {
 class Wireframe_PREFERENCES {
     var presenter: Presenter_PREFERENCES?
     var view: ViewInterface_PREFERENCES?
-    var window: WindowController_PREFERENCES?
+    var window: View_PREFERENCES?
     var interactor: Interactor_PREFERENCES?
     //weak var globalDatamanager: GlobalDatamanager?
 
     init(dataManager: LocalDatamanager) {
         presenter = Presenter_PREFERENCES(wireframe: self)
-        window = WindowController_PREFERENCES()
+        window = View_PREFERENCES()
         interactor = Interactor_PREFERENCES()
 
         presenter?.view = window
@@ -108,7 +109,10 @@ extension Presenter_PREFERENCES: ModuleInterface_PREFERENCES {
     func selectShortenService(serviceIndex: Int) {
         interactor?.setShortenServiceIndex(serviceIndex)
     }
+}
 
+
+extension Presenter_PREFERENCES: ViewLifeCycle {
     func viewIsReady() {
         interactor?.setInitialValues()
     }

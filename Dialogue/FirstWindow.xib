@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="WindowController_MAIN" customModule="Dialogue" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="View_MAIN" customModule="Dialogue" customModuleProvider="target">
             <connections>
                 <outlet property="clearRecentFiles" destination="Uva-0z-2Nf" id="1lP-Dh-Ryv"/>
                 <outlet property="constantOutput" destination="OfS-bm-CiN" id="IQP-WC-jXf"/>

@@ -1,6 +1,11 @@
 import Cocoa
 
 
+/// Module PREFERENCES
+/// Messages from `Presenter` to `View`
+/// (aka View.eventHandler)
+
+
 protocol ViewInterface_PREFERENCES {
     func gistServicePopupButton() -> NSPopUpButton
 
@@ -14,15 +19,21 @@ protocol ViewInterface_PREFERENCES {
 }
 
 
+/// Module PREFERENCES
+/// Messages from `View` to `Presenter`
+
+
 protocol ModuleInterface_PREFERENCES {
     func toggleSecretGists(value: Bool) // A
 
     func selectGistService(serviceIndex: Int)
 
     func selectShortenService(serviceIndex: Int)
-
-    func viewIsReady()
 }
+
+
+/// Module PREFERENCES
+/// Messages from `Presenter` to `Interactor`
 
 
 protocol InteractorInput_PREFERENCES {
@@ -34,6 +45,10 @@ protocol InteractorInput_PREFERENCES {
 
     func setShortenServiceIndex(index: Int)
 }
+
+
+/// Module PREFERENCES
+/// Messages from `Interactor` to `Presenter`
 
 
 protocol InteractorOutput_PREFERENCES {

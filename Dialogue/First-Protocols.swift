@@ -1,6 +1,29 @@
 import Cocoa
 
 
+/// Module MAIN
+/// Messages from `View` to `Presenter`
+/// (aka View.eventHandler)
+
+
+protocol ModuleInterface_MAIN {
+    func openPreferences()
+
+    func submitPasteboardAsGist()
+
+    func clearRecentFiles()
+}
+
+
+protocol ViewLifeCycle {
+    func viewIsReady()
+}
+
+
+/// Module MAIN
+/// Messages from `Presenter` to `View`
+
+
 protocol ViewInterface_MAIN {
     func setResultText(s: String)
 
@@ -12,15 +35,8 @@ protocol ViewInterface_MAIN {
 }
 
 
-protocol ModuleInterface_MAIN {
-    func openPreferences()
-
-    func submitPasteboardAsGist()
-
-    func viewIsReady()
-
-    func clearRecentFiles()
-}
+/// Module MAIN
+/// Messages from `Presenter` to `Interactor`
 
 
 protocol InteractorInput_MAIN {
@@ -34,6 +50,10 @@ protocol InteractorInput_MAIN {
 
     func createStringOfOptions() -> String
 }
+
+
+/// Module MAIN
+/// Messages from `Interactor` to `Presenter`
 
 
 protocol InteractorOutput_MAIN {
