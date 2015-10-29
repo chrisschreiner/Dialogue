@@ -45,9 +45,12 @@ class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI, 
         super.awakeFromNib()
     }
 
-    func setDatasourceAndDelegateForTable(tds tds: NSTableViewDataSource, tvd: NSTableViewDelegate) {
-        table.setDelegate(tvd)
-        table.setDataSource(tds)
+    func setDatasourceForRecentFiles(datasource: NSTableViewDataSource) {
+        table.setDataSource(datasource)
+    }
+
+    func setDelegateForRecentFiles(delegate: NSTableViewDelegate) {
+        table.setDelegate(delegate)
     }
 
     override func windowDidLoad() {
@@ -63,10 +66,6 @@ class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI, 
         result.stringValue = s
     }
 
-    func refreshAndReload() {
-        //        table.reloadData()
-    }
-
     func updateConstantOutput(s: String) {
         constantOutput.stringValue = s
     }
@@ -75,14 +74,12 @@ class WindowController_FIRST: NSWindowController, NSWindowDelegate, FirstViewI, 
 
 struct Main {
 
-
     class Wireframe {
         var interactor: Interactor?
         var presenter: Presenter?
         var view: FirstViewI?
         var stubWindow: WindowController_FIRST?
         var preferencesWireframe: Preferences.Wireframe?
-        //weak var globalDatamanager: GlobalDatamanager?
 
         init(dataManager: LocalDatamanager) {
             interactor = Interactor()
@@ -116,22 +113,15 @@ struct Main {
 
 
     class Presenter: NSObject, NSTableViewDataSource, NSTableViewDelegate, FirstModuleInterface, InteractorOutput_FIRST {
+        let column1RecentFiles = "column1"
+        let column2RecentFiles = "column2"
+
         var view: FirstViewI?
         var interactor: InteractorInput_FIRST?
         let wireframe: Wireframe
 
-        //TODO: remove this
-        var toggle: Bool = false
-
         init(wireframe: Main.Wireframe) {
             self.wireframe = wireframe
-        }
-
-        func toggleClicked(value: Int) {
-            toggle = value == 1
-        }
-
-        func actionClicked() {
         }
 
         func giveBackResponse(s: String) {
@@ -159,16 +149,6 @@ struct Main {
             return interactor?.countRecentFiles() ?? 0
         }
 
-        let column1 = "column1"
-        let column2 = "column2"
-
-
-        struct Sample {
-            let a: String
-            let b: Int
-        }
-
-
         func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
             let t = NSTextField()
             t.bordered = false
@@ -177,7 +157,7 @@ struct Main {
             let sample = Sample(a: "test", b: row)
 
             switch tableColumn!.identifier {
-            case column1:
+            case self.column1RecentFiles:
                 t.stringValue = sample.a
             default:
                 t.stringValue = "\(sample.b)"
@@ -187,9 +167,14 @@ struct Main {
         }
 
         func viewIsReady() {
-            view?.setDatasourceAndDelegateForTable(tds: self, tvd: self)
+            view?.setDatasourceForRecentFiles(self)
+            view?.setDelegateForRecentFiles(self)
             //TODO:Tear down observer somewhere appropriate
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateOptions:"), name: "OptionsUpdated", object: nil)
+
+            if let options = interactor?.createStringOfOptions() {
+                view?.updateConstantOutput(options)
+            }
         }
 
         func updateOptions(sender: NSNotification) {
@@ -201,4 +186,3 @@ struct Main {
 
 
 }
-

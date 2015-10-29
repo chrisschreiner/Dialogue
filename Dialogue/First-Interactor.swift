@@ -24,12 +24,12 @@ extension Main {
             return 0
         }
 
-        func recentFileEntry(index: Int) -> Main.Presenter.Sample {
+        func recentFileEntry(index: Int) -> Sample {
             if let dataMan = localDatamanager, recentFiles = dataMan.recentFiles {
                 let a = recentFiles[index].filename
                 let b = recentFiles[index].url.characters.count
 
-                let s = Main.Presenter.Sample(a: a, b: b)
+                let s = Sample(a: a, b: b)
                 return s
             }
             preconditionFailure()
@@ -40,17 +40,18 @@ extension Main {
         }
 
         func createStringOfOptions() -> String {
-            guard let dataManager = localDatamanager else {
+            guard let ldm = localDatamanager else {
                 preconditionFailure()
             }
 
-            let gist = GistService(rawValue: dataManager.activeGistService ?? 0)!
-            let shorten = ShortenService(rawValue: dataManager.activeShortenService ?? 0)!
-            let secret = dataManager.secretGists ?? true
+            let gist = GistService(rawValue: ldm.activeGistService ?? 0)!
+            let shorten = ShortenService(rawValue: ldm.activeShortenService ?? 0)!
+            let secret = ldm.secretGists ?? true
+            let recentCount = ldm.recentFiles?.count ?? 0
 
             //let s = (localDatamanager!.secretGists ? "Secret" : "Public") + "\n" + "\(localDatamanager!.activeGistService)"
 
-            return "\(gist)\n\(shorten)\n\(secret ? "Secret" : "public")"
+            return "\(gist)\n\(shorten)\n\(secret ? "Secret" : "public")\nRecent count \(recentCount)"
         }
     }
 

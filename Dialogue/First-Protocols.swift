@@ -6,9 +6,6 @@ protocol FirstModuleInterface {
 
     func submitPasteboardAsGist()
 
-    //func countRecentFiles() -> Int
-
-    //func recentFileEntry(i:Int) -> Main.Presenter.Sample
     func viewIsReady()
 
     func clearRecentFiles()
@@ -20,7 +17,7 @@ protocol InteractorInput_FIRST {
 
     func countRecentFiles() -> Int
 
-    func recentFileEntry(index: Int) -> Main.Presenter.Sample
+    func recentFileEntry(index: Int) -> Sample
 
     func clearRecentFiles()
 
@@ -36,9 +33,9 @@ protocol InteractorOutput_FIRST {
 protocol FirstViewI {
     func setResultText(s: String)
 
-    func setDatasourceAndDelegateForTable(tds tds: NSTableViewDataSource, tvd: NSTableViewDelegate)
+    func setDatasourceForRecentFiles(datasource: NSTableViewDataSource)
 
-    func refreshAndReload()
+    func setDelegateForRecentFiles(delegate: NSTableViewDelegate)
 
     func updateConstantOutput(s: String)
 }
