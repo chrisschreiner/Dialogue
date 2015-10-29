@@ -120,7 +120,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0rN-K8-Lfj">
-                        <rect key="frame" x="123" y="270" width="75" height="17"/>
+                        <rect key="frame" x="123" y="265" width="75" height="17"/>
                         <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Recent files" id="q4L-JN-qM2">
                             <font key="font" metaFont="system"/>
@@ -129,13 +129,13 @@
                         </textFieldCell>
                     </textField>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ub4-TF-X7d">
-                        <rect key="frame" x="125" y="52" width="240" height="210"/>
+                        <rect key="frame" x="125" y="52" width="240" height="205"/>
                         <clipView key="contentView" id="WVw-Tg-gCe">
-                            <rect key="frame" x="1" y="0.0" width="238" height="209"/>
+                            <rect key="frame" x="1" y="0.0" width="238" height="204"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="i3g-87-dgd" viewBased="YES" id="C9i-yu-2K0">
-                                    <rect key="frame" x="0.0" y="0.0" width="238" height="186"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="238" height="181"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -218,7 +218,7 @@
                         </clipView>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="5dX-Aa-jq1"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="210" id="Qtp-KU-DhN"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="Qtp-KU-DhN"/>
                         </constraints>
                         <animations/>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="MRi-Fk-Ms3">
@@ -251,15 +251,15 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="OfS-bm-CiN">
-                        <rect key="frame" x="123" y="295" width="244" height="60"/>
+                        <rect key="frame" x="125" y="290" width="240" height="65"/>
                         <constraints>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="t3b-aN-zmd"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="65" id="t3b-aN-zmd"/>
                         </constraints>
                         <animations/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Multiline Label" id="9Eg-dF-AmK">
-                            <font key="font" metaFont="system"/>
+                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Multiline Label" drawsBackground="YES" id="9Eg-dF-AmK">
+                            <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Wy-bP-gQt">
@@ -313,7 +313,7 @@
                 </constraints>
                 <animations/>
             </view>
-            <point key="canvasLocation" x="-83" y="462"/>
+            <point key="canvasLocation" x="2" y="341"/>
         </window>
     </objects>
 </document>

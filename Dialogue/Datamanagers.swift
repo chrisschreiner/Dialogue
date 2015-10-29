@@ -10,7 +10,26 @@ struct UserDefaultsKeys {
 
 let NotificationNameOptionsUpdated = "OptionsUpdated"
 
-class LocalDatamanager {
+
+protocol LocalDatamanager_P {
+    var activeGistService: Int { get set }
+    var activeShortenService: Int { get set }
+    var secretGists: Bool { get set }
+    //var recentFiles: [RecentFile] {get set}
+
+    func countRecentFiles() -> Int
+
+    func getRecentFile(index: Int) -> RecentFile?
+
+    func addRecentFile(rf: RecentFile)
+
+    func clearRecentFiles()
+
+    func notifyWorld()
+}
+
+
+class LocalDatamanager: LocalDatamanager_P {
     private var userDefaults = NSUserDefaults.standardUserDefaults()
 
     var activeGistService: Int {
@@ -39,6 +58,15 @@ class LocalDatamanager {
             userDefaults.setBool(newValue, forKey: UserDefaultsKeys.SecretGistKey)
             notifyWorld()
         }
+    }
+
+    //TODO:This is stupid and wrong, fix it tomorrow
+    func countRecentFiles() -> Int {
+        return recentFiles?.count ?? 0
+    }
+
+    func getRecentFile(index: Int) -> RecentFile? {
+        return recentFiles?[index]
     }
 
     func addRecentFile(rf: RecentFile) {

@@ -1,5 +1,5 @@
 class Interactor_PREFERENCES {
-    var localDatamanager: LocalDatamanager?
+    var localDatamanager: LocalDatamanager_P?
     var apiDatamanager: APIDataManager_PREFERENCES?
     var output: InteractorOutput_PREFERENCES?
 

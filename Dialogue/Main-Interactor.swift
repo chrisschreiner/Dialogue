@@ -1,11 +1,14 @@
 import Cocoa
 
 
-class Interactor_MAIN: InteractorInput_MAIN {
-    var localDatamanager: LocalDatamanager?
-    var apiDatamanager: APIDatamanager_MAIN?
+class Interactor_MAIN {
+    var localDatamanager: LocalDatamanager_P?
+    var apiDatamanager: APIDatamanager_MAIN_P?
     var output: InteractorOutput_MAIN?
+}
 
+
+extension Interactor_MAIN: InteractorInput_MAIN {
     func submitToGistService() {
         if let dataMan = localDatamanager {
             let rf = RecentFile(filename: "sample", url: "url")
@@ -15,16 +18,16 @@ class Interactor_MAIN: InteractorInput_MAIN {
     }
 
     func countRecentFiles() -> Int {
-        if let dataMan = localDatamanager, recentFiles = dataMan.recentFiles {
-            return recentFiles.count
+        if let dataMan = localDatamanager {
+            return dataMan.countRecentFiles()
         }
         return 0
     }
 
     func recentFileEntry(index: Int) -> Sample {
-        if let dataMan = localDatamanager, recentFiles = dataMan.recentFiles {
-            let a = recentFiles[index].filename
-            let b = recentFiles[index].url.characters.count
+        if let dataMan = localDatamanager, recentFile = dataMan.getRecentFile(index) {
+            let a = recentFile.filename
+            let b = recentFile.url.characters.count
 
             let s = Sample(a: a, b: b)
             return s
@@ -44,7 +47,7 @@ class Interactor_MAIN: InteractorInput_MAIN {
         let gist = GistService(rawValue: ldm.activeGistService ?? 0)!
         let shorten = ShortenService(rawValue: ldm.activeShortenService ?? 0)!
         let secret = ldm.secretGists ?? true
-        let recentCount = ldm.recentFiles?.count ?? 0
+        let recentCount = ldm.countRecentFiles()
 
         //let s = (localDatamanager!.secretGists ? "Secret" : "Public") + "\n" + "\(localDatamanager!.activeGistService)"
 
@@ -53,8 +56,13 @@ class Interactor_MAIN: InteractorInput_MAIN {
 }
 
 
-class APIDatamanager_MAIN {
-    func processIt(dataManager: LocalDatamanager) {
+protocol APIDatamanager_MAIN_P {
+    func processIt(dataManager: LocalDatamanager_P)
+}
+
+
+class APIDatamanager_MAIN: APIDatamanager_MAIN_P {
+    func processIt(dataManager: LocalDatamanager_P) {
 
         //?How do I access the Preferences-Module.LocalDataManager instance ?
         //!Turn the LocalDataManager into a GlobalDatamanager by narrow protocols
@@ -64,7 +72,8 @@ class APIDatamanager_MAIN {
         let secret = dataManager.secretGists ?? true
 
         print("processed the gist with: \(gist) \(shorten) \(secret)")
-        print("Total recent: \(dataManager.recentFiles!.count) where the last one was: \(dataManager.recentFiles!.last)")
+        //TODO:Fix this as well
+        print("Total recent: \(dataManager.countRecentFiles()) where the last one was: \(dataManager.getRecentFile(dataManager.countRecentFiles()))")
         print(getPasteboardItems())
     }
 }

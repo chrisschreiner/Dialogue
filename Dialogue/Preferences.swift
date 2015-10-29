@@ -62,7 +62,7 @@ class Wireframe_PREFERENCES {
     var interactor: Interactor_PREFERENCES?
     //weak var globalDatamanager: GlobalDatamanager?
 
-    init(dataManager: LocalDatamanager) {
+    init(dataManager: LocalDatamanager_P) {
         presenter = Presenter_PREFERENCES(wireframe: self)
         window = View_PREFERENCES()
         interactor = Interactor_PREFERENCES()

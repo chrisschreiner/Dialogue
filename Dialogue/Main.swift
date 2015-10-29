@@ -75,7 +75,7 @@ class Wireframe_MAIN {
     var view: View_MAIN?
     var preferencesWireframe: Wireframe_PREFERENCES?
 
-    init(dataManager: LocalDatamanager) {
+    init(dataManager: LocalDatamanager_P) {
         interactor = Interactor_MAIN()
         presenter = Presenter_MAIN(wireframe: self)
         view = View_MAIN()
@@ -103,6 +103,27 @@ class Wireframe_MAIN {
             preferencesWireframe?.show()
         } else {
             preconditionFailure()
+        }
+    }
+}
+
+
+class Presenter_MAIN: NSObject {
+    var view: ViewInterface_MAIN?
+    var interactor: InteractorInput_MAIN?
+    let wireframe: Wireframe_MAIN
+
+    init(wireframe: Wireframe_MAIN) {
+        self.wireframe = wireframe
+    }
+
+    func updateOptions(sender: NSNotification) {
+        updateConstantOptionsField()
+    }
+
+    func updateConstantOptionsField() {
+        if let options = interactor?.createStringOfOptions() {
+            view?.updateConstantOutput(options)
         }
     }
 }
@@ -164,26 +185,5 @@ extension Presenter_MAIN: ViewLifeCycle {
         let n = NSNotificationCenter.defaultCenter()
         n.addObserver(self, selector: Selector("updateOptions:"), name: NotificationNameOptionsUpdated, object: nil)
         updateConstantOptionsField()
-    }
-}
-
-
-class Presenter_MAIN: NSObject {
-    var view: ViewInterface_MAIN?
-    var interactor: InteractorInput_MAIN?
-    let wireframe: Wireframe_MAIN
-
-    init(wireframe: Wireframe_MAIN) {
-        self.wireframe = wireframe
-    }
-
-    func updateOptions(sender: NSNotification) {
-        updateConstantOptionsField()
-    }
-
-    func updateConstantOptionsField() {
-        if let options = interactor?.createStringOfOptions() {
-            view?.updateConstantOutput(options)
-        }
     }
 }
