@@ -41,7 +41,7 @@ extension Interactor_MAIN: InteractorInput_MAIN {
 
     func createStringOfOptions() -> String {
         guard let ldm = localDatamanager else {
-            preconditionFailure()
+            preconditionFailure("localDatamanager is nil")
         }
 
         let gist = GistService(rawValue: ldm.activeGistService ?? 0)!

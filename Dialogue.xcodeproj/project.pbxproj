@@ -20,6 +20,8 @@
 		8373D8861BDFFE5C0018B0ED /* Datamanagers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373D8851BDFFE5C0018B0ED /* Datamanagers.swift */; };
 		837905CB1BE22BF60090E0ED /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837905CA1BE22BF60090E0ED /* Utilities.swift */; };
 		837905CD1BE25F4F0090E0ED /* Preferences-Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837905CC1BE25F4F0090E0ED /* Preferences-Interactor.swift */; };
+		838CE9BB1BE35E8000034AFD /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8396F0101BE35728007DF30B /* ReactiveCocoa.framework */; };
+		838CE9BC1BE35E8000034AFD /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8396F0111BE35728007DF30B /* Result.framework */; };
 		8396EFFE1BE2D53E007DF30B /* DialogueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8396EFFD1BE2D53E007DF30B /* DialogueTests.swift */; };
 		8396F0051BE2D69C007DF30B /* Main-Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373D8751BDF72C10018B0ED /* Main-Protocols.swift */; };
 		8396F0061BE2D69C007DF30B /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373D8771BDF72C60018B0ED /* Main.swift */; };
@@ -100,6 +102,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				838CE9BB1BE35E8000034AFD /* ReactiveCocoa.framework in Frameworks */,
+				838CE9BC1BE35E8000034AFD /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +465,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = DialogueTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schpaencoder.DialogueTests;
@@ -474,6 +482,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = DialogueTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schpaencoder.DialogueTests;
@@ -510,6 +522,7 @@
 				8396F0031BE2D53E007DF30B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

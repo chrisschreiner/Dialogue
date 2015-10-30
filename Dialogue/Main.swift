@@ -77,7 +77,8 @@ class Wireframe_MAIN {
 
     init(dataManager: LocalDatamanager_P) {
         interactor = Interactor_MAIN()
-        presenter = Presenter_MAIN(wireframe: self)
+        presenter = Presenter_MAIN()
+        presenter?.wireframe = self
         view = View_MAIN()
         view?.viewLifeCycle = presenter //TODO:Could this be handled by the wireframe?
         view?.eventHandler = presenter
@@ -111,17 +112,14 @@ class Wireframe_MAIN {
 class Presenter_MAIN: NSObject {
     var view: ViewInterface_MAIN?
     var interactor: InteractorInput_MAIN?
-    let wireframe: Wireframe_MAIN
-
-    init(wireframe: Wireframe_MAIN) {
-        self.wireframe = wireframe
-    }
+    var wireframe: Wireframe_MAIN?
 
     func updateOptions(sender: NSNotification) {
         updateConstantOptionsField()
     }
 
     func updateConstantOptionsField() {
+        print(__FUNCTION__)
         if let options = interactor?.createStringOfOptions() {
             view?.updateConstantOutput(options)
         }
@@ -158,7 +156,7 @@ extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
 
 extension Presenter_MAIN: ModuleInterface_MAIN {
     func openPreferences() {
-        wireframe.presentPreferences()
+        wireframe?.presentPreferences()
     }
 
     func submitPasteboardAsGist() {
