@@ -6,7 +6,7 @@ class View_MAIN: NSWindowController, NSWindowDelegate {
     var viewLifeCycle: ViewLifeCycle?
 
     override var windowNibName: String? {
-        return "FirstWindow"
+        return "MainWindow"
     }
 
     @IBOutlet weak var name: NSTextField!

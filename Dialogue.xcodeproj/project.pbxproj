@@ -32,6 +32,10 @@
 		8396F00D1BE2D7B2007DF30B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8373D8801BDFB18E0018B0ED /* MainWindow.xib */; };
 		8396F00E1BE2D7B2007DF30B /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8373D8821BDFE5670018B0ED /* PreferencesWindow.xib */; };
 		8396F00F1BE2D846007DF30B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8313A9D61BDA0AB7005B365C /* Main.storyboard */; };
+		8396F0121BE35728007DF30B /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8396F0101BE35728007DF30B /* ReactiveCocoa.framework */; };
+		8396F0131BE35728007DF30B /* ReactiveCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8396F0101BE35728007DF30B /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8396F0141BE35728007DF30B /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8396F0111BE35728007DF30B /* Result.framework */; };
+		8396F0151BE35728007DF30B /* Result.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8396F0111BE35728007DF30B /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +47,21 @@
 			remoteInfo = Dialogue;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8396F0161BE35728007DF30B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8396F0131BE35728007DF30B /* ReactiveCocoa.framework in Embed Frameworks */,
+				8396F0151BE35728007DF30B /* Result.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5A416F1104FCE8957B6C8CAE /* Main-Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Main-Interactor.swift"; sourceTree = "<group>"; };
@@ -63,6 +82,8 @@
 		8396EFFB1BE2D53E007DF30B /* DialogueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DialogueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8396EFFD1BE2D53E007DF30B /* DialogueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogueTests.swift; sourceTree = "<group>"; };
 		8396EFFF1BE2D53E007DF30B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8396F0101BE35728007DF30B /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/Mac/ReactiveCocoa.framework; sourceTree = "<group>"; };
+		8396F0111BE35728007DF30B /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +91,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8396F0121BE35728007DF30B /* ReactiveCocoa.framework in Frameworks */,
+				8396F0141BE35728007DF30B /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +109,8 @@
 		8313A9C41BDA0AB7005B365C = {
 			isa = PBXGroup;
 			children = (
+				8396F0101BE35728007DF30B /* ReactiveCocoa.framework */,
+				8396F0111BE35728007DF30B /* Result.framework */,
 				8313A9CF1BDA0AB7005B365C /* Dialogue */,
 				8396EFFC1BE2D53E007DF30B /* DialogueTests */,
 				8313A9CE1BDA0AB7005B365C /* Products */,
@@ -173,6 +198,7 @@
 				8313A9C91BDA0AB7005B365C /* Sources */,
 				8313A9CA1BDA0AB7005B365C /* Frameworks */,
 				8313A9CB1BDA0AB7005B365C /* Resources */,
+				8396F0161BE35728007DF30B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -403,6 +429,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Dialogue/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schpaencoder.Dialogue;
@@ -415,6 +445,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Dialogue/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schpaencoder.Dialogue;
