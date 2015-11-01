@@ -80,7 +80,7 @@ class Wireframe_MAIN {
         presenter = Presenter_MAIN()
         presenter?.wireframe = self
         view = View_MAIN()
-        view?.viewLifeCycle = presenter //TODO:Could this be handled by the wireframe?
+        view?.viewLifeCycle = presenter //TODO:Think through; could this be handled by the wireframe?
         view?.eventHandler = presenter
 
         interactor?.localDatamanager = dataManager
@@ -119,7 +119,6 @@ class Presenter_MAIN: NSObject {
     }
 
     func updateConstantOptionsField() {
-        print(__FUNCTION__)
         if let options = interactor?.createStringOfOptions() {
             view?.updateConstantOutput(options)
         }

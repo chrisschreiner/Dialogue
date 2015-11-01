@@ -75,6 +75,7 @@ class Wireframe_PREFERENCES {
         interactor?.output = presenter
 
         window?.eventHandler = presenter
+        window?.viewLifeCycle = presenter
     }
 
     func show() {

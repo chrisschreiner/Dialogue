@@ -8,6 +8,18 @@ struct UserDefaultsKeys {
 }
 
 
+struct ConfigurationRecord {
+	let gistService: GistService
+	let shortenService: ShortenService
+	let secretGists: Bool
+	
+	init(fromDataManager data: LocalDatamanager_P) {
+		self.gistService = GistService(rawValue: data.activeGistService)!
+		self.shortenService = ShortenService(rawValue: data.activeShortenService)!
+		self.secretGists = data.secretGists
+	}
+}
+
 let NotificationNameOptionsUpdated = "OptionsUpdated"
 
 
@@ -26,6 +38,8 @@ protocol LocalDatamanager_P {
     func clearRecentFiles()
 
     func notifyWorld()
+	
+	var configurationRecord: ConfigurationRecord {get}
 }
 
 
@@ -84,4 +98,9 @@ class LocalDatamanager: LocalDatamanager_P {
     func notifyWorld() {
         NSNotificationCenter.defaultCenter().postNotificationName(NotificationNameOptionsUpdated, object: nil)
     }
+	
+	var configurationRecord: ConfigurationRecord {
+		return ConfigurationRecord(fromDataManager:self)
+	}
+
 }

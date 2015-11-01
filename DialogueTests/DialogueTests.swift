@@ -52,8 +52,18 @@ class SomeTests: XCTestCase {
     class Mocked_View: View_MAIN {
         var _result: String?
         override func updateConstantOutput(s: String) {
-            print(s)
             _result = s
+        }
+    }
+
+
+    class Mocked_LocalDatamanager: LocalDatamanager {
+        override var activeGistService: Int {
+            get {
+                return 0
+            }
+            set {
+            }
         }
     }
 
@@ -61,23 +71,48 @@ class SomeTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        let d = LocalDatamanager() //you probably want to mock this
-        let w = Wireframe_MAIN(dataManager: d)
         let i = Interactor_MAIN()
         i.apiDatamanager = Mocked_APIDatamanager()
-        i.localDatamanager = d
+        i.localDatamanager = Mocked_LocalDatamanager()
 
         p = Presenter_MAIN()
-        p?.wireframe = w
         p?.interactor = i
         p?.view = Mocked_View()
 
         XCTAssertNotNil(p)
     }
 
-    func testSendGist() {
+    //TODO: Useless
+    func testUpdateConstantOptionsField() {
+        let i = Interactor_MAIN()
+        i.localDatamanager = LocalDatamanager()
+        p?.interactor = i
+
         XCTAssertNotNil(p?.view)
         p?.updateConstantOptionsField() //mock the view to test
         XCTAssert((p?.view as! Mocked_View)._result == "NoPaste\nIsgd\npublic\nRecent count 0")
+    }
+
+    //TODO: Fails when configuration changes, reason; dependent of values in NSUserDefaults
+    func testDefaultConfiguration() {
+        let i = Interactor_MAIN()
+        i.localDatamanager = LocalDatamanager()
+        if let x = i.localDatamanager?.configurationRecord {
+            XCTAssertEqual(x.gistService, GistService.NoPaste)
+            XCTAssertEqual(x.shortenService, ShortenService.Isgd)
+            XCTAssertTrue(x.secretGists)
+        }
+    }
+
+    func testPublishGistFromPastebuffer() {
+
+        //select whats in the pasteboard (mock it)
+        //send it to the active GistService:
+        //a. build a request for the active service
+        //b. perform the request
+        //c. store returned url
+        //capture the url and add that to the recentFiles (todo: name-change)
+        let x = getPasteboardItems()
+        print(x.count)
     }
 }
