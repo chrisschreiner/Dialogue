@@ -5,7 +5,7 @@ import ReactiveCocoa
 
 
 class Interactor_MAIN {
-    var localDatamanager: LocalDatamanager_P?
+    //var localDatamanager: LocalDatamanager_P?
     var apiDatamanager: APIDatamanager_MAIN_P?
     var output: InteractorOutput_MAIN?
 }
@@ -13,7 +13,7 @@ class Interactor_MAIN {
 
 extension Interactor_MAIN: InteractorInput_MAIN {
     //TODO:Decide if getPasteboardItems should be a free function or not
-    func submitToGistService() {
+    func submitToGistService(dataMan: LocalDatamanager_P) {
         let condition = {
             (item: PBItem) -> Bool in switch item {
             case .Text(_ ):
@@ -29,40 +29,35 @@ extension Interactor_MAIN: InteractorInput_MAIN {
 
         let dataContents = GistData(item: first)
 
-        submitToGistService(self.localDatamanager!, dataContents: dataContents)
+        submitToGistService(dataMan, dataContents: dataContents)
     }
 
     func submitToGistService(dataMan: LocalDatamanager_P, dataContents: GistData) -> SignalProducer<NSURL, ProcessError> {
         return SignalProducer {
-            observer, disposable in if let dataMan = self.localDatamanager {
-                let gistService = dataMan.activeGistService
-                _ = dataMan.activeShortenService
-                let userCredentials = UserCredential()
+            observer, disposable in let gistService = dataMan.activeGistService
+            _ = dataMan.activeShortenService
+            let userCredentials = UserCredential()
 
-                if let strategy: Strategy = GistServiceFactory.makeStrategy(gistService, userCredentials) {
-                    switch strategy.processIt(dataContents) {
-                    case .Failure(_ ):
-                        observer.sendFailed(.NotImplementedYet)
+            if let strategy: Strategy = GistServiceFactory.makeStrategy(gistService, userCredentials) {
+                switch strategy.processIt(dataContents) {
+                case .Failure(_ ):
+                    observer.sendFailed(.NotImplementedYet)
 
-                    case .Success(let url):
-                        observer.sendNext(url)
-                        observer.sendCompleted()
-                    }
+                case .Success(let url):
+                    observer.sendNext(url)
+                    observer.sendCompleted()
                 }
-                // ?> apiDatamanager?.processIt(dataMan)
             }
+            // ?> apiDatamanager?.processIt(dataMan)
         }
     }
 
-    func countRecentFiles() -> Int {
-        if let dataMan = localDatamanager {
-            return dataMan.countRecentFiles()
-        }
-        return 0
+    func countRecentFiles(dataMan: LocalDatamanager_P) -> Int {
+        return dataMan.countRecentFiles()
     }
 
-    func recentFileEntry(index: Int) -> Sample {
-        if let dataMan = localDatamanager, recentFile = dataMan.getRecentFile(index) {
+    func recentFileEntry(dataMan: LocalDatamanager_P, index: Int) -> Sample {
+        if let recentFile = dataMan.getRecentFile(index) {
             let a = recentFile.filename
             let b = recentFile.url.characters.count
 
@@ -72,19 +67,15 @@ extension Interactor_MAIN: InteractorInput_MAIN {
         preconditionFailure()
     }
 
-    func clearRecentFiles() {
-        localDatamanager?.clearRecentFiles()
+    func clearRecentFiles(dataMan: LocalDatamanager_P) {
+        dataMan.clearRecentFiles()
     }
 
-    func createStringOfOptions() -> String {
-        guard let ldm = localDatamanager else {
-            preconditionFailure("localDatamanager is nil")
-        }
-
-        let gist = GistService(rawValue: ldm.activeGistServiceIndex ?? 0)!
-        let shorten = ShortenService(rawValue: ldm.activeShortenServiceIndex ?? 0)!
-        let secret = ldm.secretGists ?? true
-        let recentCount = ldm.countRecentFiles()
+    func createStringOfOptions(dataMan: LocalDatamanager_P) -> String {
+        let gist = GistService(rawValue: dataMan.activeGistServiceIndex ?? 0)!
+        let shorten = ShortenService(rawValue: dataMan.activeShortenServiceIndex ?? 0)!
+        let secret = dataMan.secretGists ?? true
+        let recentCount = dataMan.countRecentFiles()
 
         //let s = (localDatamanager!.secretGists ? "Secret" : "Public") + "\n" + "\(localDatamanager!.activeGistService)"
 

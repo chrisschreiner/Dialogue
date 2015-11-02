@@ -83,7 +83,7 @@ class Wireframe_MAIN {
         view?.viewLifeCycle = presenter //TODO:Think through; could this be handled by the wireframe?
         view?.eventHandler = presenter
 
-        interactor?.localDatamanager = dataManager
+        presenter?.localDataManager = dataManager
         interactor?.apiDatamanager = APIDatamanager_MAIN()
         interactor?.output = presenter //no functions yet
 
@@ -96,15 +96,11 @@ class Wireframe_MAIN {
         view?.showWindow(nil)
     }
 
-    func presentPreferences() {
-        if let dataMan = interactor?.localDatamanager {
-            /// Is this nescessary? Find alternative connection-points for the "global" localDatamanager
-            /// Local in this context means "not API" or external.
-            preferencesWireframe = Wireframe_PREFERENCES(dataManager: dataMan)
-            preferencesWireframe?.show()
-        } else {
-            preconditionFailure()
-        }
+    func presentPreferences(dataMan: LocalDatamanager_P) {
+        /// Is this nescessary? Find alternative connection-points for the "global" localDatamanager
+        /// Local in this context means "not API" or external.
+        preferencesWireframe = Wireframe_PREFERENCES(dataManager: dataMan)
+        preferencesWireframe?.show()
     }
 }
 
@@ -113,13 +109,14 @@ class Presenter_MAIN: NSObject {
     var view: ViewInterface_MAIN?
     var interactor: InteractorInput_MAIN?
     var wireframe: Wireframe_MAIN?
+    var localDataManager: LocalDatamanager_P?
 
     func updateOptions(sender: NSNotification) {
         updateConstantOptionsField()
     }
 
     func updateConstantOptionsField() {
-        if let options = interactor?.createStringOfOptions() {
+        if let options = interactor?.createStringOfOptions(localDataManager!) {
             view?.updateConstantOutput(options)
         }
     }
@@ -128,7 +125,7 @@ class Presenter_MAIN: NSObject {
 
 extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return interactor?.countRecentFiles() ?? 0
+        return interactor?.countRecentFiles(localDataManager!) ?? 0
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -155,7 +152,7 @@ extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
 
 extension Presenter_MAIN: ModuleInterface_MAIN {
     func openPreferences() {
-        wireframe?.presentPreferences()
+        wireframe?.presentPreferences(localDataManager!)
     }
 
     func submitPasteboardAsGist() {
@@ -179,12 +176,12 @@ extension Presenter_MAIN: ModuleInterface_MAIN {
         }
 
         if let dataContents = getPasteboardItems().filter(condition).first {
-            interactor?.submitToGistService()
+            interactor?.submitToGistService(localDataManager!)
         }
     }
 
     func clearRecentFiles() {
-        interactor?.clearRecentFiles()
+        interactor?.clearRecentFiles(localDataManager!)
     }
 }
 

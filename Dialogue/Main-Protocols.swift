@@ -40,15 +40,15 @@ protocol ViewInterface_MAIN {
 
 
 protocol InteractorInput_MAIN {
-    func submitToGistService()
+    func submitToGistService(dataMan: LocalDatamanager_P)
 
-    func countRecentFiles() -> Int
+    func countRecentFiles(dataMan: LocalDatamanager_P) -> Int
 
-    func recentFileEntry(index: Int) -> Sample
+    func recentFileEntry(dataMan: LocalDatamanager_P, index: Int) -> Sample
 
-    func clearRecentFiles()
+    func clearRecentFiles(dataMan: LocalDatamanager_P)
 
-    func createStringOfOptions() -> String
+    func createStringOfOptions(dataMan: LocalDatamanager_P) -> String
 }
 
 
