@@ -13,7 +13,7 @@ struct ConfigurationRecord {
 	let shortenService: ShortenService
 	let secretGists: Bool
 
-	init(fromDataManager data: LocalDatamanager_P) {
+    init(fromDataManager data: Config_P) {
         self.gistService = GistService(rawValue: data.activeGistServiceIndex)!
         self.shortenService = ShortenService(rawValue: data.activeShortenServiceIndex)!
 		self.secretGists = data.secretGists
@@ -23,7 +23,7 @@ struct ConfigurationRecord {
 let NotificationNameOptionsUpdated = "OptionsUpdated"
 
 
-protocol LocalDatamanager_P {
+protocol Config_P {
     var activeGistService: GistService { get }
     var activeShortenService: ShortenService { get }
     var activeGistServiceIndex: Int { get set }
@@ -45,7 +45,7 @@ protocol LocalDatamanager_P {
 }
 
 
-class LocalDatamanager: LocalDatamanager_P {
+class Config: Config_P {
     private var userDefaults = NSUserDefaults.standardUserDefaults()
 
     var activeGistService: GistService {

@@ -60,9 +60,8 @@ class Wireframe_PREFERENCES {
     var view: ViewInterface_PREFERENCES?
     var window: View_PREFERENCES?
     var interactor: Interactor_PREFERENCES?
-    //weak var globalDatamanager: GlobalDatamanager?
 
-    init(dataManager: LocalDatamanager_P) {
+    init(config: Config_P) {
         presenter = Presenter_PREFERENCES(wireframe: self)
         window = View_PREFERENCES()
         interactor = Interactor_PREFERENCES()
@@ -71,7 +70,7 @@ class Wireframe_PREFERENCES {
         presenter?.interactor = interactor
 
         interactor?.apiDatamanager = APIDataManager_PREFERENCES()
-        interactor?.localDatamanager = dataManager
+        interactor?.localDatamanager = config
         interactor?.output = presenter
 
         window?.eventHandler = presenter

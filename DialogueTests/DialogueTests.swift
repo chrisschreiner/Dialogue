@@ -23,7 +23,7 @@ class DialogueTests: XCTestCase {
     func testExample() {
 
 
-        class LocalDatamanager_Mock: LocalDatamanager {
+        class LocalDatamanager_Mock: Config {
             override func getRecentFile(index: Int) -> RecentFile? {
                 return nil
             }
@@ -57,7 +57,7 @@ class SomeTests: XCTestCase {
     }
 
 
-    class Mocked_LocalDatamanager: LocalDatamanager {
+    class Mocked_LocalDatamanager: Config {
         override var activeGistServiceIndex: Int {
             get {
                 return 0
@@ -74,8 +74,7 @@ class SomeTests: XCTestCase {
         let i = Interactor_MAIN()
         i.apiDatamanager = Mocked_APIDatamanager()
 
-        p = Presenter_MAIN()
-        p?.localDataManager = Mocked_LocalDatamanager()
+        p = Presenter_MAIN(config: Mocked_LocalDatamanager())
         p?.interactor = i
         p?.view = Mocked_View()
 
@@ -86,7 +85,7 @@ class SomeTests: XCTestCase {
     func testUpdateConstantOptionsField() {
         let i = Interactor_MAIN()
         p?.interactor = i
-        p?.localDataManager = LocalDatamanager()
+        p?.config = Config()
 
         XCTAssertNotNil(p?.view)
         p?.updateConstantOptionsField() //mock the view to test
@@ -96,7 +95,7 @@ class SomeTests: XCTestCase {
     //TODO: Fails when configuration changes, reason; dependent of values in NSUserDefaults
     func testDefaultConfiguration() {
         let i = Interactor_MAIN()
-        if let x = p?.localDataManager?.configurationRecord {
+        if let x = p?.config.configurationRecord {
             XCTAssertEqual(x.gistService, GistService.NoPaste)
             XCTAssertEqual(x.shortenService, ShortenService.Isgd)
             XCTAssertTrue(x.secretGists)
@@ -119,7 +118,7 @@ class SomeTests: XCTestCase {
         let i = Interactor_MAIN()
 
         let dummyData = GistData(data: "Hello world")
-        i.submitToGistService(p!.localDataManager!, dataContents: dummyData)
+        i.submitToGistService(p!.config, content: dummyData)
         .on(failed: { err in e.fulfill() })
         .start()
 
@@ -131,11 +130,11 @@ class SomeTests: XCTestCase {
         let e = expectationWithDescription("whatever")
         let i = Interactor_MAIN()
 
-        let pasteData = GistData(data: "Some text to share")
+        let data = GistData(data: "Some text to share")
         let closure: (data:NSURL) -> Void = {
             data in print(data.absoluteString); e.fulfill()
         }
-        let producer = i.submitToGistService(p!.localDataManager!, dataContents: pasteData)
+        let producer = i.submitToGistService(p!.config, content: data)
 
         producer.on(next: closure).start()
 

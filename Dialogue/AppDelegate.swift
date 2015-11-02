@@ -10,11 +10,11 @@ import ReactiveCocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var wireframe: Wireframe_MAIN!
-    var datamanager: LocalDatamanager!
+    var config: Config!
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        datamanager = LocalDatamanager()
-        wireframe = Wireframe_MAIN(dataManager: datamanager)
+        config = Config()
+        wireframe = Wireframe_MAIN(config: config)
         wireframe.show()
     }
 }

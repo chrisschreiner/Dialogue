@@ -13,7 +13,7 @@ class Interactor_MAIN {
 
 extension Interactor_MAIN: InteractorInput_MAIN {
     //TODO:Decide if getPasteboardItems should be a free function or not
-    func submitToGistService(dataMan: LocalDatamanager_P) {
+    func submitToGistService(config: Config_P) {
         let condition = {
             (item: PBItem) -> Bool in switch item {
             case .Text(_ ):
@@ -27,19 +27,18 @@ extension Interactor_MAIN: InteractorInput_MAIN {
             return
         }
 
-        let dataContents = GistData(item: first)
-
-        submitToGistService(dataMan, dataContents: dataContents)
+        let data = GistData(item: first)
+        submitToGistService(config, content: data)
     }
 
-    func submitToGistService(dataMan: LocalDatamanager_P, dataContents: GistData) -> SignalProducer<NSURL, ProcessError> {
+    func submitToGistService(config: Config_P, content: GistData) -> SignalProducer<NSURL, ProcessError> {
         return SignalProducer {
-            observer, disposable in let gistService = dataMan.activeGistService
-            _ = dataMan.activeShortenService
+            observer, disposable in let gistService = config.activeGistService
+            _ = config.activeShortenService
             let userCredentials = UserCredential()
 
             if let strategy: Strategy = GistServiceFactory.makeStrategy(gistService, userCredentials) {
-                switch strategy.processIt(dataContents) {
+                switch strategy.processIt(content) {
                 case .Failure(_ ):
                     observer.sendFailed(.NotImplementedYet)
 
@@ -52,12 +51,12 @@ extension Interactor_MAIN: InteractorInput_MAIN {
         }
     }
 
-    func countRecentFiles(dataMan: LocalDatamanager_P) -> Int {
-        return dataMan.countRecentFiles()
+    func countRecentFiles(config: Config_P) -> Int {
+        return config.countRecentFiles()
     }
 
-    func recentFileEntry(dataMan: LocalDatamanager_P, index: Int) -> Sample {
-        if let recentFile = dataMan.getRecentFile(index) {
+    func recentFileEntry(config: Config_P, index: Int) -> Sample {
+        if let recentFile = config.getRecentFile(index) {
             let a = recentFile.filename
             let b = recentFile.url.characters.count
 
@@ -67,15 +66,15 @@ extension Interactor_MAIN: InteractorInput_MAIN {
         preconditionFailure()
     }
 
-    func clearRecentFiles(dataMan: LocalDatamanager_P) {
-        dataMan.clearRecentFiles()
+    func clearRecentFiles(config: Config_P) {
+        config.clearRecentFiles()
     }
 
-    func createStringOfOptions(dataMan: LocalDatamanager_P) -> String {
-        let gist = GistService(rawValue: dataMan.activeGistServiceIndex ?? 0)!
-        let shorten = ShortenService(rawValue: dataMan.activeShortenServiceIndex ?? 0)!
-        let secret = dataMan.secretGists ?? true
-        let recentCount = dataMan.countRecentFiles()
+    func createStringOfOptions(config: Config_P) -> String {
+        let gist = GistService(rawValue: config.activeGistServiceIndex ?? 0)!
+        let shorten = ShortenService(rawValue: config.activeShortenServiceIndex ?? 0)!
+        let secret = config.secretGists ?? true
+        let recentCount = config.countRecentFiles()
 
         //let s = (localDatamanager!.secretGists ? "Secret" : "Public") + "\n" + "\(localDatamanager!.activeGistService)"
 
@@ -85,30 +84,30 @@ extension Interactor_MAIN: InteractorInput_MAIN {
 
 
 protocol APIDatamanager_MAIN_P {
-    func processIt(dataManager: LocalDatamanager_P)
+    func processIt(config: Config_P)
 
     func sendGist()
 }
 
 
 class APIDatamanager_MAIN: APIDatamanager_MAIN_P {
-    func processIt(dataManager: LocalDatamanager_P) {
+    func processIt(config: Config_P) {
 
         //?How do I access the Preferences-Module.LocalDataManager instance ?
         //!Turn the LocalDataManager into a GlobalDatamanager by narrow protocols
 
-        let gist = GistService(rawValue: dataManager.activeGistServiceIndex ?? 0)!
-        let shorten = ShortenService(rawValue: dataManager.activeShortenServiceIndex ?? 0)!
-        let secret = dataManager.secretGists ?? true
+        let gist = GistService(rawValue: config.activeGistServiceIndex ?? 0)!
+        let shorten = ShortenService(rawValue: config.activeShortenServiceIndex ?? 0)!
+        let secret = config.secretGists ?? true
 
         print("processed the gist with: \(gist) \(shorten) \(secret)")
         //TODO:Fix this as well
 
-        let recentFileCount = dataManager.countRecentFiles()
+        let recentFileCount = config.countRecentFiles()
 
         let recentFileFilename: String?
         if recentFileCount > 0 {
-            recentFileFilename = dataManager.getRecentFile(recentFileCount - 1)?.filename
+            recentFileFilename = config.getRecentFile(recentFileCount - 1)?.filename
         } else {
             recentFileFilename = ""
         }
