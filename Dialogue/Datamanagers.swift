@@ -12,10 +12,10 @@ struct ConfigurationRecord {
 	let gistService: GistService
 	let shortenService: ShortenService
 	let secretGists: Bool
-	
+
 	init(fromDataManager data: LocalDatamanager_P) {
-		self.gistService = GistService(rawValue: data.activeGistService)!
-		self.shortenService = ShortenService(rawValue: data.activeShortenService)!
+        self.gistService = GistService(rawValue: data.activeGistServiceIndex)!
+        self.shortenService = ShortenService(rawValue: data.activeShortenServiceIndex)!
 		self.secretGists = data.secretGists
 	}
 }
@@ -24,8 +24,10 @@ let NotificationNameOptionsUpdated = "OptionsUpdated"
 
 
 protocol LocalDatamanager_P {
-    var activeGistService: Int { get set }
-    var activeShortenService: Int { get set }
+    var activeGistService: GistService { get }
+    var activeShortenService: ShortenService { get }
+    var activeGistServiceIndex: Int { get set }
+    var activeShortenServiceIndex: Int { get set }
     var secretGists: Bool { get set }
     //var recentFiles: [RecentFile] {get set}
 
@@ -38,7 +40,7 @@ protocol LocalDatamanager_P {
     func clearRecentFiles()
 
     func notifyWorld()
-	
+
 	var configurationRecord: ConfigurationRecord {get}
 }
 
@@ -46,7 +48,19 @@ protocol LocalDatamanager_P {
 class LocalDatamanager: LocalDatamanager_P {
     private var userDefaults = NSUserDefaults.standardUserDefaults()
 
-    var activeGistService: Int {
+    var activeGistService: GistService {
+        get {
+            return GistService(rawValue: self.activeGistServiceIndex)!
+        }
+    }
+
+    var activeShortenService: ShortenService {
+        get {
+            return ShortenService(rawValue: self.activeShortenServiceIndex)!
+        }
+    }
+
+    var activeGistServiceIndex: Int {
         get {
             return userDefaults.integerForKey(UserDefaultsKeys.GistServiceIndexKey) ?? 0
         }
@@ -55,7 +69,7 @@ class LocalDatamanager: LocalDatamanager_P {
             notifyWorld()
         }
     }
-    var activeShortenService: Int {
+    var activeShortenServiceIndex: Int {
         get {
             return userDefaults.integerForKey(UserDefaultsKeys.ShortenServiceIndexKey) ?? 0
         }
@@ -74,7 +88,7 @@ class LocalDatamanager: LocalDatamanager_P {
         }
     }
 
-    //TODO:This is stupid and wrong, fix it tomorrow
+    //TODO:This is stupid and wrong, fix it asap
     func countRecentFiles() -> Int {
         return recentFiles?.count ?? 0
     }
@@ -98,8 +112,8 @@ class LocalDatamanager: LocalDatamanager_P {
     func notifyWorld() {
         NSNotificationCenter.defaultCenter().postNotificationName(NotificationNameOptionsUpdated, object: nil)
     }
-	
-	var configurationRecord: ConfigurationRecord {
+
+    var configurationRecord: ConfigurationRecord {
 		return ConfigurationRecord(fromDataManager:self)
 	}
 

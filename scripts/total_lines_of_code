@@ -1,0 +1,10 @@
+#!/bin/zsh
+echo "usage: test, source, *"
+case "$1" in
+  test) find ../DialogueTests -name "*.swift" | xargs wc -lw
+  ;;
+  source) find ../Dialogue -name "*.swift" | xargs wc -lw
+  ;;
+  *) find .. -name "*.swift" | xargs wc -lw
+  ;;
+esac

@@ -58,7 +58,7 @@ class SomeTests: XCTestCase {
 
 
     class Mocked_LocalDatamanager: LocalDatamanager {
-        override var activeGistService: Int {
+        override var activeGistServiceIndex: Int {
             get {
                 return 0
             }
@@ -105,7 +105,6 @@ class SomeTests: XCTestCase {
     }
 
     func testPublishGistFromPastebuffer() {
-
         //select whats in the pasteboard (mock it)
         //send it to the active GistService:
         //a. build a request for the active service
@@ -115,4 +114,93 @@ class SomeTests: XCTestCase {
         let x = getPasteboardItems()
         print(x.count)
     }
+
+    func testLastStuff() {
+        let e = expectationWithDescription("whatever")
+        let i = Interactor_MAIN()
+        i.localDatamanager = LocalDatamanager()
+
+        let dummyData = GistData(data: "Hello world")
+        i.submitToGistService(i.localDatamanager!, dataContents: dummyData)
+        .on(failed: { err in e.fulfill() })
+        .start()
+
+        waitForExpectationsWithTimeout(1) {
+            error in }
+    }
+
+    func testNamingISVeryHard() {
+        let e = expectationWithDescription("whatever")
+
+        let i = Interactor_MAIN()
+        i.localDatamanager = LocalDatamanager()
+
+        let pasteData = GistData(data: "Some text to share")
+        let closure: (data:NSURL) -> Void = {
+            data in print(data.absoluteString); e.fulfill()
+        }
+        let producer = i.submitToGistService(i.localDatamanager!, dataContents: pasteData)
+
+        producer
+        .on(next: closure)
+        .start()
+
+        /*
+                dataMan.addRecentFile(RecentFile(url: url))
+                //open url in a browser-window
+                NSWorkspace.sharedWorkspace().openURL(url)
+        */
+
+        waitForExpectationsWithTimeout(3) {
+            error in }
+    }
+}
+
+
+class MockSession: NSURLSession {
+    var completionHandler: ((NSData!, NSURLResponse!, NSError!) -> Void)?
+
+    static var mockResponse: (data:NSData?, urlResponse:NSURLResponse?, error:NSError?) = (data: nil, urlResponse: nil, error: nil)
+
+    override class func sharedSession() -> NSURLSession {
+        return MockSession()
+    }
+
+    override func dataTaskWithURL(url: NSURL, completionHandler: ((NSData!, NSURLResponse!, NSError!) -> Void)?) -> NSURLSessionDataTask {
+        self.completionHandler = completionHandler
+        return MockTask(response: MockSession.mockResponse, completionHandler: completionHandler)
+    }
+
+    override func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask {
+        self.completionHandler = completionHandler
+        return MockTask(response: MockSession.mockResponse, completionHandler: completionHandler)
+    }
+
+
+    class MockTask: NSURLSessionDataTask {
+        typealias Response = (data:NSData?, urlResponse:NSURLResponse?, error:NSError?)
+        var mockResponse: Response
+        let completionHandler: ((NSData!, NSURLResponse!, NSError!) -> Void)?
+
+        init(response: Response, completionHandler: ((NSData!, NSURLResponse!, NSError!) -> Void)?) {
+            self.mockResponse = response
+            self.completionHandler = completionHandler
+        }
+
+        override func resume() {
+            completionHandler!(mockResponse.data, mockResponse.urlResponse, mockResponse.error)
+        }
+    }
+
+
+}
+
+
+func mockedSession() -> NSURLSession {
+    let jsonData = try! NSJSONSerialization.dataWithJSONObject(["html_url": "whatever", "id": "12345678", ], options: NSJSONWritingOptions.PrettyPrinted)
+    let urlResponse = NSHTTPURLResponse(URL: NSURL(string: "https://api.app.net/posts/stream/global")!, statusCode: 201, HTTPVersion: nil, headerFields: nil)
+
+    MockSession.mockResponse = (jsonData, urlResponse: urlResponse, error: nil)
+
+    return MockSession()
 }

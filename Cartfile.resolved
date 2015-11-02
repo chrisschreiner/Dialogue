@@ -1,2 +1,3 @@
 github "antitypical/Result" "0.6.0-beta.5"
+github "SwiftyJSON/SwiftyJSON" "3db7e39b11b58c91a0a360381ec7620b2caab46a"
 github "ReactiveCocoa/ReactiveCocoa" "v4.0.0-alpha.3"

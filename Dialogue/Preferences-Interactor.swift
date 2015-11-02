@@ -13,8 +13,8 @@ extension Interactor_PREFERENCES: InteractorInput_PREFERENCES {
 
         output?.populateGistsServicePopupMenu(GistService.popupMenuList())
         output?.populateShortenServicePopupMenu(ShortenService.popupMenuList())
-        output?.setActiveGistService(localDatamanager?.activeGistService ?? 0)
-        output?.setActiveShortenService(localDatamanager?.activeShortenService ?? 0)
+        output?.setActiveGistService(localDatamanager?.activeGistServiceIndex ?? 0)
+        output?.setActiveShortenService(localDatamanager?.activeShortenServiceIndex ?? 0)
         output?.setUseSecretGists(localDatamanager?.secretGists ?? true)
     }
 
@@ -23,11 +23,11 @@ extension Interactor_PREFERENCES: InteractorInput_PREFERENCES {
     }
 
     func setGistServiceIndex(index: Int) {
-        localDatamanager?.activeGistService = index
+        localDatamanager?.activeGistServiceIndex = index
     }
 
     func setShortenServiceIndex(index: Int) {
-        localDatamanager?.activeShortenService = index
+        localDatamanager?.activeShortenServiceIndex = index
     }
 }
 

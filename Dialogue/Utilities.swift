@@ -20,6 +20,11 @@ struct Sample {
 struct RecentFile {
     let filename: String
     let url: String
+
+    init(url: NSURL) {
+        self.filename = url.lastPathComponent!
+        self.url = url.absoluteString
+    }
 }
 
 
@@ -123,10 +128,19 @@ func getPasteboardItems() -> [PBItem] {
 }
 
 
-enum PBItem {
+enum PBItem: CustomStringConvertible {
     case Text(String)
     case Image(NSImage)
     case File(NSURL)
+
+    var description: String {
+        switch self {
+        case Text(_ ):
+            return "Text"
+        default:
+            return "Other"
+        }
+    }
 }
 
 

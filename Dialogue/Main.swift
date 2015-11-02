@@ -159,8 +159,28 @@ extension Presenter_MAIN: ModuleInterface_MAIN {
     }
 
     func submitPasteboardAsGist() {
-        // where should this go?
-        interactor?.submitToGistService()
+        /*
+
+        open questions related to this pattern:
+
+        -- 1. bring all configuration-details to the interactor
+
+        -> 2. let the interactor bother with configuration
+
+        */
+
+        let condition = {
+            (item: PBItem) -> Bool in switch item {
+            case .Text(let text):
+                return true
+            default:
+                return false
+            }
+        }
+
+        if let dataContents = getPasteboardItems().filter(condition).first {
+            interactor?.submitToGistService()
+        }
     }
 
     func clearRecentFiles() {

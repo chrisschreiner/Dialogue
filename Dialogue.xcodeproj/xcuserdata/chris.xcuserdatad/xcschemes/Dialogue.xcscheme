@@ -37,6 +37,20 @@
                BlueprintName = "DialogueTests"
                ReferencedContainer = "container:Dialogue.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "DialogueTests">
+               </Test>
+               <Test
+                  Identifier = "SomeTests/testDefaultConfiguration()">
+               </Test>
+               <Test
+                  Identifier = "SomeTests/testPublishGistFromPastebuffer()">
+               </Test>
+               <Test
+                  Identifier = "SomeTests/testUpdateConstantOptionsField()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
