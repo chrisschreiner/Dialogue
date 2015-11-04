@@ -9,7 +9,7 @@
 import XCTest
 import Dialogue
 import ReactiveCocoa
-
+import Result
 
 class DialogueTests: XCTestCase {
     override func setUp() {
@@ -31,7 +31,7 @@ class DialogueTests: XCTestCase {
 
 
         let i = Interactor_MAIN()
-        i.apiDatamanager = APIDatamanager_MAIN()
+        i.apiDatamanager = API_MAIN()
         let dataMan = LocalDatamanager_Mock()
 
         XCTAssertNil(dataMan.getRecentFile(123))
@@ -42,9 +42,10 @@ class DialogueTests: XCTestCase {
 class SomeTests: XCTestCase {
     var i: Interactor_MAIN?
     var p: Presenter_MAIN?
+    let kSampleData = "sample data"
 
 
-    class Mocked_APIDatamanager: APIDatamanager_MAIN {
+    class Mocked_APIDatamanager: API_MAIN {
         //anything you do here
     }
 
@@ -94,7 +95,7 @@ class SomeTests: XCTestCase {
 
     //TODO: Fails when configuration changes, reason; dependent of values in NSUserDefaults
     func testDefaultConfiguration() {
-        let i = Interactor_MAIN()
+        let _ = Interactor_MAIN()
         if let x = p?.config.configurationRecord {
             XCTAssertEqual(x.gistService, GistService.NoPaste)
             XCTAssertEqual(x.shortenService, ShortenService.Isgd)
@@ -114,10 +115,10 @@ class SomeTests: XCTestCase {
     }
 
     func testLastStuff() {
-        let e = expectationWithDescription("whatever")
+        let e = expectationWithDescription("...")
         let i = Interactor_MAIN()
 
-        let dummyData = GistData(data: "Hello world")
+        let dummyData = GistData(data: kSampleData)
         i.submitToGistService(p!.config, content: dummyData)
         .on(failed: { err in e.fulfill() })
         .start()
@@ -126,17 +127,18 @@ class SomeTests: XCTestCase {
             error in }
     }
 
-    func testNamingISVeryHard() {
-        let e = expectationWithDescription("whatever")
+    func testNamingIsVeryHardBeforeYouHaveFiguredOutAProperAPI() {
+        let e = expectationWithDescription("...")
+
         let i = Interactor_MAIN()
 
-        let data = GistData(data: "Some text to share")
+        let data = GistData(data: kSampleData)
         let closure: (data:NSURL) -> Void = {
             data in print(data.absoluteString); e.fulfill()
         }
-        let producer = i.submitToGistService(p!.config, content: data)
+        let prod = i.submitToGistService(p!.config, content: data)
 
-        producer.on(next: closure).start()
+        prod.on(next: closure).map{print($0)}.start()
 
         /*
                 dataMan.addRecentFile(RecentFile(url: url))
@@ -147,8 +149,32 @@ class SomeTests: XCTestCase {
         waitForExpectationsWithTimeout(3) {
             error in }
     }
-}
 
+	
+    func testNewAPI() {
+        let e = expectationWithDescription("...")
+		let config = p!.config
+		
+		//pretend to be Wireframe_MAIN
+        let i = Interactor_MAIN()
+		i.apiDatamanager = MockedApiForGist({}) {
+			e.fulfill()
+		}
+		i.pastebufferGateway = MockedPastebufferService {
+			return GistData(data: "testings")
+		}
+		
+		i.output = MockedPresenter {
+			//this is executed with a url when the gist is posted
+			return NSURL(string: "http://this.is.it/url.html")!
+		}
+		
+        i.postGist(config)
+
+		waitForExpectationsWithTimeout(3) {
+			error in }
+    }
+}
 
 class MockSession: NSURLSession {
     var completionHandler: ((NSData!, NSURLResponse!, NSError!) -> Void)?
@@ -197,3 +223,26 @@ func mockedSession() -> NSURLSession {
 
     return MockSession()
 }
+
+
+//
+//protocol IInput {
+//	func sendGist(request:RequestModel)
+//}
+//
+//protocol IOutput {
+//	func gistResult(response:ResultModel)
+//
+//}
+//
+//struct RequestModel {
+//	let paste: GistData?
+//	let gistService: GistService?
+//	let gistSession: Int?
+//}
+//
+//struct ResultModel {
+//	let url: NSURL?
+//}
+//
+//

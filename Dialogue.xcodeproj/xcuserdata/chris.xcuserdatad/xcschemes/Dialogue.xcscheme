@@ -45,6 +45,12 @@
                   Identifier = "SomeTests/testDefaultConfiguration()">
                </Test>
                <Test
+                  Identifier = "SomeTests/testLastStuff()">
+               </Test>
+               <Test
+                  Identifier = "SomeTests/testNamingIsVeryHardBeforeYouHaveFiguredOutAProperAPI()">
+               </Test>
+               <Test
                   Identifier = "SomeTests/testPublishGistFromPastebuffer()">
                </Test>
                <Test

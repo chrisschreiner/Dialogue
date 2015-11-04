@@ -15,6 +15,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         config = Config()
         wireframe = Wireframe_MAIN(config: config)
-        wireframe.show()
+        wireframe.view?.showWindow(nil)
     }
 }

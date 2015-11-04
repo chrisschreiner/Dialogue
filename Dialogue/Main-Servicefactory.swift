@@ -2,9 +2,7 @@
 //  Main-Servicefactory.swift
 //  Dialogue
 //
-//  Created by Chris Patrick Schreiner on 02/11/15.
-//  Copyright © 2015 Chris Patrick Schreiner. All rights reserved.
-//
+
 
 import Foundation
 import Result
@@ -15,36 +13,20 @@ enum ProcessError: ErrorType {
 }
 
 
-struct GistData {
-    var data: String
-    init(item: PBItem) {
-        switch item {
-        case .Text(let text):
-            self.data = text
-        default:
-            preconditionFailure("undefined")
-        }
-    }
-    init(data: String) {
-        self.data = data
-    }
-}
-
-
 protocol Strategy {
-    func processIt(contents: GistData) -> Result<NSURL, ProcessError>
+    func process(contents: GistData) -> Result<NSURL, ProcessError>
 }
 
 
 class GitHubStrategy: Strategy {
-    func processIt(contents: GistData) -> Result<NSURL, ProcessError> {
+    func process(contents: GistData) -> Result<NSURL, ProcessError> {
         return .Failure(.NotImplementedYet)
     }
 }
 
 
 class PasteBinStrategy: Strategy {
-    func processIt(contents: GistData) -> Result<NSURL, ProcessError> {
+    func process(contents: GistData) -> Result<NSURL, ProcessError> {
         return .Failure(.NotImplementedYet)
     }
 }

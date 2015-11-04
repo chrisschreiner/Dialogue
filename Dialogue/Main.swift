@@ -1,4 +1,5 @@
 import Cocoa
+import ReactiveCocoa
 
 
 class View_MAIN: NSWindowController, NSWindowDelegate {
@@ -83,17 +84,18 @@ class Wireframe_MAIN {
         view?.viewLifeCycle = presenter //TODO:Think through; could this be handled by the wireframe?
         view?.eventHandler = presenter
 
-        interactor?.apiDatamanager = APIDatamanager_MAIN()
+        interactor?.apiDatamanager = API_MAIN()
         interactor?.output = presenter //no functions yet
-
+		interactor?.config = config
+		
         presenter?.interactor = interactor
         presenter?.view = view
     }
 
-    func show() {
-        /// Who should show - wireframe or presenter?
-        view?.showWindow(nil)
-    }
+//    func show() {
+//        /// Who should show - wireframe or presenter?
+//        view?.showWindow(nil)
+//    }
 
     func presentPreferences(dataMan: Config_P) {
         /// Is this nescessary? Find alternative connection-points for the "global" localDatamanager
@@ -168,7 +170,8 @@ extension Presenter_MAIN: ModuleInterface_MAIN {
         -> 2. let the interactor bother with configuration
 
         */
-
+		//TODO:Come back here
+		/*
         let condition = {
             (item: PBItem) -> Bool in switch item {
             case .Text(let text):
@@ -178,9 +181,10 @@ extension Presenter_MAIN: ModuleInterface_MAIN {
             }
         }
 
-        if let dataContents = getPasteboardItems().filter(condition).first {
-            interactor?.submitToGistService(config)
+        if let pasteboardData = getPasteboardItems().filter(condition).first {
+            let sp = interactor?.submitToGistService(config, content: pasteboardData)
         }
+		*/
     }
 
     func clearRecentFiles() {
@@ -190,6 +194,9 @@ extension Presenter_MAIN: ModuleInterface_MAIN {
 
 
 extension Presenter_MAIN: InteractorOutput_MAIN {
+	func giveMeTheURL() -> NSURL {
+		return NSURL(string:"whatever")! //TODO:Check
+	}
 }
 
 
