@@ -28,12 +28,6 @@
                ReferencedContainer = "container:Dialogue.xcodeproj">
             </BuildableReference>
             <SkippedTests>
-               <Test
-                  Identifier = "DialogueTests">
-               </Test>
-               <Test
-                  Identifier = "SomeTests/testUpdateConstantOptionsField()">
-               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>

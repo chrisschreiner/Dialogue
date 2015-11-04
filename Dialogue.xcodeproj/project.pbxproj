@@ -104,7 +104,6 @@
 		837905CA1BE22BF60090E0ED /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		837905CC1BE25F4F0090E0ED /* Preferences-Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Preferences-Interactor.swift"; sourceTree = "<group>"; };
 		8396EFFB1BE2D53E007DF30B /* DialogueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DialogueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8396EFFD1BE2D53E007DF30B /* DialogueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogueTests.swift; sourceTree = "<group>"; };
 		8396EFFF1BE2D53E007DF30B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8396F0101BE35728007DF30B /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/Mac/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		8396F0111BE35728007DF30B /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
@@ -180,8 +179,9 @@
 		83310DFF1BE0F95900C948D9 /* First */ = {
 			isa = PBXGroup;
 			children = (
+				83E48F3A1BEA4BF4006F915E /* API-Pastebuffer */,
 				5A416395A37AE9DAD36E2812 /* Services */,
-				83481DDE1BE9EDEC00C1CF58 /* API */,
+				83481DDE1BE9EDEC00C1CF58 /* API-Gist */,
 				8373D8801BDFB18E0018B0ED /* MainWindow.xib */,
 				8373D8751BDF72C10018B0ED /* Main-Protocols.swift */,
 				8373D8771BDF72C60018B0ED /* Main.swift */,
@@ -210,14 +210,14 @@
 			name = Mocks;
 			sourceTree = "<group>";
 		};
-		83481DDE1BE9EDEC00C1CF58 /* API */ = {
+		83481DDE1BE9EDEC00C1CF58 /* API-Gist */ = {
 			isa = PBXGroup;
 			children = (
 				83481DDF1BE9EE0700C1CF58 /* API_Gist.swift */,
 				83481DE21BE9EE5000C1CF58 /* API_Boundry.swift */,
 				83481DE51BEA09F200C1CF58 /* API_Mock.swift */,
 			);
-			name = API;
+			name = "API-Gist";
 			sourceTree = "<group>";
 		};
 		8373D8791BDF72CB0018B0ED /* Modules */ = {
@@ -242,11 +242,17 @@
 			isa = PBXGroup;
 			children = (
 				83481DD61BE9E89700C1CF58 /* Mocks */,
-				8396EFFD1BE2D53E007DF30B /* DialogueTests.swift */,
 				8396EFFF1BE2D53E007DF30B /* Info.plist */,
 				83481DD91BE9E9B400C1CF58 /* DT2.swift */,
 			);
 			path = DialogueTests;
+			sourceTree = "<group>";
+		};
+		83E48F3A1BEA4BF4006F915E /* API-Pastebuffer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "API-Pastebuffer";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

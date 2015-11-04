@@ -32,31 +32,11 @@ class DT2: XCTestCase {
 		XCTAssert(config.activeGistService == GistService.GitHub)
 	}
 
-	/*
-	func testPostAGistThroughGitHubAnonymously() {
-	let e = expectationWithDescription("...")
-	//A
-	i.submitToGistService(config, content: i.pastebufferGateway!.getContents())
-	.on(next:{url in
-	if url == NSURL(string:"http://sample.url") {
-	e.fulfill()
-	}
-	})
-	.start()
-	waitForExpectationsWithTimeout(3, handler: {_ in})
-	}
-	*/
-
 	func testPostGist() {
-		class PastebufferGatewayMock: PB_Gateway {
-			func getContents() -> GistData {
-				return GistData(data: "packet")
-			}
-		}
-		i.pastebufferGateway = PastebufferGatewayMock()
-
-		i.apiDatamanager = MockedApiForGist({}) {
-		}
+		let sampleURL = NSURL(string: "http://sample.url")!
+		
+		i.pastebufferGateway = PastebufferGatewayMock {return GistData(data: "packet")}
+		i.apiDatamanager = MockedApiForGist {return sampleURL}
 
 		XCTAssertNotNil(i.config)
 
@@ -64,7 +44,7 @@ class DT2: XCTestCase {
 
 		i.postGist()
 			.on(next: {
-				url in XCTAssertEqual(url, NSURL(string: "http://sample.url")!)
+				url in XCTAssertEqual(url, sampleURL)
 				e.fulfill()
 			})
 			.start()

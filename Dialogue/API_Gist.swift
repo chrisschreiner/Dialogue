@@ -10,39 +10,7 @@ class API_MAIN: API_MAIN_P {
 		return SignalProducer { _ in }
 	}
 	
-	
-    func sendGist(data: GistData) {
-        preconditionFailure("not implemented \(data)")
-    }
-    /*    func processIt(config: Config_P) {
 
-    let gist = GistService(rawValue: config.activeGistServiceIndex ?? 0)!
-    let shorten = ShortenService(rawValue: config.activeShortenServiceIndex ?? 0)!
-    let secret = config.secretGists ?? true
-
-    print("processed the gist with: \(gist) \(shorten) \(secret)")
-    //TODO:Fix this as well
-
-    let recentFileCount = config.countRecentFiles()
-
-    let recentFileFilename: String?
-    if recentFileCount > 0 {
-    recentFileFilename = config.getRecentFile(recentFileCount - 1)?.filename
-    } else {
-    recentFileFilename = ""
-    }
-
-    print("Total recent: \(recentFileCount) where the last one was: \(recentFileFilename)")
-    print(getPasteboardItems())
-    }*/
-
-
-    // ===================================================================================================================
-
-
-	
-	
-	
     private typealias ResultType = Result<(NSURL, String), GistRequestReason> -> Void
 
 

@@ -9,12 +9,8 @@ import Result
 
 protocol InteractorInput_MAIN {
 	
-	func postGist() -> SignalProducer<NSURL,ProcessError> //async, try also with a callback and see how the api differs from signals
-	
-//	@available(*,deprecated=1)
-//	func postGist(config:Config_P) //-> SignalProducer<Result<Int,ProcessError>,NoError>
-	
-//	func submitToGistService(config: Config_P)
+	//async, try also with a callback and see how the api differs from signals
+	func postGist() -> SignalProducer<NSURL,ProcessError>
 	
 	func countRecentFiles(config: Config_P) -> Int
 	

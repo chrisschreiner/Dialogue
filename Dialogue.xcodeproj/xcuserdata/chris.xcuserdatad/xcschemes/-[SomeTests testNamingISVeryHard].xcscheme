@@ -35,6 +35,12 @@
                   Identifier = "SomeTests/testDefaultConfiguration()">
                </Test>
                <Test
+                  Identifier = "SomeTests/testLastStuff()">
+               </Test>
+               <Test
+                  Identifier = "SomeTests/testPublishGistFromPastebuffer()">
+               </Test>
+               <Test
                   Identifier = "SomeTests/testUpdateConstantOptionsField()">
                </Test>
             </SkippedTests>

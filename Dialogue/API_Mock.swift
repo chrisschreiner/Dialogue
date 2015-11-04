@@ -6,34 +6,31 @@ import Foundation
 
 
 class MockedApiForGist: API_MAIN_P {
-    let _closure: () -> Void
-    let _callback: () -> Void
+    private let _callback: () -> NSURL
 
     func postGist(content: GistData, config: Config_P) -> SignalProducer<NSURL, ProcessError> {
         return SignalProducer {
             o, d in
 
-            o.sendNext(NSURL(string: "http://sample.url")!)
+            o.sendNext(self._callback())
             o.sendCompleted()
         }
     }
 
-/*
-    func sendGist(data: GistData) {
-        _closure()
-        _callback()
-    }
-
-    func sendGist() {
-        _closure()
-
-        //do stuff
-        print("Doing stuff")
-    }
-*/
-
-    init(_ _closure: () -> Void, _callback: () -> Void) {
-        self._closure = _closure
+    init( _callback: () -> NSURL) {
         self._callback = _callback
     }
+}
+
+
+class PastebufferGatewayMock: PB_Gateway {
+	private let _callback: () -> GistData
+
+	func getContents() -> GistData {
+		return self._callback()
+	}
+	
+	init( _callback: () -> GistData) {
+		self._callback = _callback
+	}
 }
