@@ -87,7 +87,7 @@ class Wireframe_MAIN {
         interactor?.apiDatamanager = API_MAIN()
         interactor?.output = presenter //no functions yet
 		interactor?.config = config
-		
+
         presenter?.interactor = interactor
         presenter?.view = view
     }
@@ -97,10 +97,8 @@ class Wireframe_MAIN {
 //        view?.showWindow(nil)
 //    }
 
-    func presentPreferences(dataMan: Config_P) {
-        /// Is this nescessary? Find alternative connection-points for the "global" localDatamanager
-        /// Local in this context means "not API" or external.
-        preferencesWireframe = Wireframe_PREFERENCES(config: dataMan)
+    func presentPreferences() {
+        preferencesWireframe = Wireframe_PREFERENCES(config: self.interactor!.config!)
         preferencesWireframe?.show()
     }
 }
@@ -110,10 +108,10 @@ class Presenter_MAIN: NSObject {
     var view: ViewInterface_MAIN?
     var interactor: InteractorInput_MAIN?
     var wireframe: Wireframe_MAIN?
-    var config: Config_P
+    //var config: Config_P
 
     init(config: Config_P) {
-        self.config = config
+        //self.config = config
     }
 
     func updateOptions(sender: NSNotification) {
@@ -121,7 +119,7 @@ class Presenter_MAIN: NSObject {
     }
 
     func updateConstantOptionsField() {
-        if let options = interactor?.createStringOfOptions(config) {
+        if let options = interactor?.createStringOfOptions() {
             view?.updateConstantOutput(options)
         }
     }
@@ -130,7 +128,7 @@ class Presenter_MAIN: NSObject {
 
 extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return interactor?.countRecentFiles(config) ?? 0
+        return interactor?.countRecentFiles() ?? 0
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -157,38 +155,16 @@ extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
 
 extension Presenter_MAIN: ModuleInterface_MAIN {
     func openPreferences() {
-        wireframe?.presentPreferences(config)
+        wireframe?.presentPreferences()
     }
 
     func submitPasteboardAsGist() {
-        /*
-
-        open questions related to this pattern:
-
-        -- 1. bring all configuration-details to the interactor
-
-        -> 2. let the interactor bother with configuration
-
-        */
-		//TODO:Come back here
-		/*
-        let condition = {
-            (item: PBItem) -> Bool in switch item {
-            case .Text(let text):
-                return true
-            default:
-                return false
-            }
-        }
-
-        if let pasteboardData = getPasteboardItems().filter(condition).first {
-            let sp = interactor?.submitToGistService(config, content: pasteboardData)
-        }
-		*/
+        preconditionFailure()
     }
 
+
     func clearRecentFiles() {
-        interactor?.clearRecentFiles(config)
+        interactor?.clearRecentFiles()
     }
 }
 

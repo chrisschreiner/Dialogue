@@ -36,9 +36,6 @@ struct GistData {
 
 protocol API_MAIN_P {
 
-	func postGist(content:GistData, config:Config_P) -> SignalProducer<NSURL,ProcessError>
+	func postGist(content:GistData, config:Config_P) -> SignalProducer<NSURL,GistRequestReason>
 
-//    func sendGist()
-
-//    func sendGist(data: GistData) //TODO:codify the result-model
 }

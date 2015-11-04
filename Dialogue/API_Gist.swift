@@ -5,14 +5,30 @@ import ReactiveCocoa
 
 
 class API_MAIN: API_MAIN_P {
+	var session: NSURLSession!
 	
-	func postGist(content:GistData, config:Config_P) -> SignalProducer<NSURL, ProcessError> {
-		return SignalProducer { _ in }
-	}
-	
+    func postGist(content: GistData, config: Config_P) -> SignalProducer<NSURL, GistRequestReason> {
+        return SignalProducer { o, d in
+			
+			let g = GistRequestData()
+            //let session = NSURLSession.sharedSession()
+
+            self.performWebRequest(self.session, request: g, completion: {result in
+				switch result {
+                case .Success(let value, _):
+					print(value)
+                    o.sendNext(value)
+                    o.sendCompleted()
+
+                case .Failure(let reason):
+                    o.sendFailed(reason)
+                }
+            })
+        }
+    }
+
 
     private typealias ResultType = Result<(NSURL, String), GistRequestReason> -> Void
-
 
 
     private struct GistRequestData {
@@ -41,7 +57,7 @@ class API_MAIN: API_MAIN_P {
             request.HTTPMethod = "PATCH"
         } else {
             request = NSMutableURLRequest(URL: gr.connectionURL!)
-            request.HTTPMethod = "POSTp"
+            request.HTTPMethod = "POST"
         }
 
         let data = try! JSON(gistHTTPBody(gr)).rawData()
@@ -60,7 +76,7 @@ class API_MAIN: API_MAIN_P {
         let request = createURLRequest(dataForRequest)
         let task = session.dataTaskWithRequest(request) {
             data, response, error in //		let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
-            let r = response as! NSHTTPURLResponse
+			if let r = response as? NSHTTPURLResponse {
 
             switch r.statusCode {
             case 200 ..< 300:
@@ -74,32 +90,10 @@ class API_MAIN: API_MAIN_P {
             default:
                 completion(.Failure(.OtherErrorResponse(r.statusCode)))
             }
+			} else {
+				completion(.Failure(.ErrorResponse("response was nil (?)")))
+			}
         }
         task.resume()
-    }
-
-
-    func sendGist() {
-        let g = GistRequestData()
-        let session = NSURLSession.sharedSession()
-
-        performWebRequest(session, request: g, completion: {
-            result in switch result {
-            case .Success(let value, let ugh):
-                print("Success: \(value) \(ugh)")
-
-            case .Failure(let reason):
-                switch reason {
-                case .BadMood:
-                    print("failed because of bad mood")
-                case .JustBecause:
-                    print("failed just because")
-                case .ErrorResponse(let i):
-                    print("ErrorResponse: \(i)")
-                default:
-                    print(reason)
-                }
-            }
-        })
     }
 }

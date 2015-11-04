@@ -7,48 +7,59 @@ import XCTest
 
 
 class DT2: XCTestCase {
-	var i: Interactor_MAIN!
-	//    var w: Wireframe_MAIN!
-	var p: Presenter_MAIN!
-	var config: Config_P!
+    var i: Interactor_MAIN!
+    //    var w: Wireframe_MAIN!
+    var p: Presenter_MAIN!
+    var config: Config_P!
 
-	override func setUp() {
-		super.setUp()
+    override func setUp() {
+        super.setUp()
 
-		config = Config() //mock?
+        config = Config() //mock?
 
-		//w = Wireframe_MAIN(config: config)
-		i = Interactor_MAIN()
+        i = Interactor_MAIN()
+        i.config = config
 
-		p = Presenter_MAIN(config: config)
-		i.config = config
-	}
+        p = Presenter_MAIN(config: config)
+    }
 
-	override func tearDown() {
-		super.tearDown()
-	}
+    override func tearDown() {
+        super.tearDown()
+    }
 
-	func testAssertDefaultGistIsGitHub() {
-		XCTAssert(config.activeGistService == GistService.GitHub)
-	}
+    func testAssertDefaultGistIsGitHub() {
+        XCTAssert(config.activeGistService == GistService.GitHub)
+    }
 
-	func testPostGist() {
-		let sampleURL = NSURL(string: "http://sample.url")!
-		
-		i.pastebufferGateway = PastebufferGatewayMock {return GistData(data: "packet")}
-		i.apiDatamanager = MockedApiForGist {return sampleURL}
+    func testPostGist() {
+        func mockedSession() -> NSURLSession {
+            let jsonData = try! NSJSONSerialization.dataWithJSONObject(["html_url": "whatever", "id": "12345678", ], options: NSJSONWritingOptions.PrettyPrinted)
+            let urlResponse = NSHTTPURLResponse(URL: NSURL(string: "https://api.app.net/posts/stream/global")!, statusCode: 201, HTTPVersion: nil, headerFields: nil)
 
-		XCTAssertNotNil(i.config)
+            MockSession.mockResponse = (jsonData, urlResponse: urlResponse, error: nil)
 
-		let e = expectationWithDescription("...")
+            return MockSession()
+        }
 
-		i.postGist()
-			.on(next: {
-				url in XCTAssertEqual(url, sampleURL)
-				e.fulfill()
-			})
-			.start()
+        let sampleURL = NSURL(string: "http://sample.url")!
 
-		waitForExpectationsWithTimeout(3, handler: { _ in })
-	}
+        i.pastebufferGateway = PastebufferGatewayMock {
+            return GistData(data: "packet")
+        }
+
+		i.apiDatamanager = MockedApiForGist(session: mockedSession()) {
+			//nop
+			return sampleURL
+        }
+
+        let e = expectationWithDescription("Post")
+
+        i.postGist().on(next: {
+            url in XCTAssertEqual(url, sampleURL) //errors here, but its okay now
+            e.fulfill()
+        })
+        .start()
+
+        waitForExpectationsWithTimeout(3, handler: { _ in })
+    }
 }

@@ -16,16 +16,7 @@ class MockedPresenter: InteractorOutput_MAIN {
 	}
 }
 
-//TODO: Generify this
-class MockedPastebufferService: PB_Gateway {
-	let _closure:() -> GistData
-	func getContents() -> GistData {
-		return _closure()
-	}
-	init( _closure:() -> GistData) {
-		self._closure = _closure
-	}
-}
+
 
 
 

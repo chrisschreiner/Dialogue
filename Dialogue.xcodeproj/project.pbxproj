@@ -13,6 +13,7 @@
 		8313A9D11BDA0AB7005B365C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8313A9D01BDA0AB7005B365C /* AppDelegate.swift */; };
 		8313A9D51BDA0AB7005B365C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8313A9D41BDA0AB7005B365C /* Assets.xcassets */; };
 		8313A9D81BDA0AB7005B365C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8313A9D61BDA0AB7005B365C /* Main.storyboard */; };
+		8330CF811BEA7C6500C23F6C /* API-Pastebuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E48F3B1BEA5AD5006F915E /* API-Pastebuffer.swift */; };
 		83481DD81BE9E8B100C1CF58 /* Mocked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83481DD71BE9E8B100C1CF58 /* Mocked.swift */; };
 		83481DDA1BE9E9B400C1CF58 /* DT2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83481DD91BE9E9B400C1CF58 /* DT2.swift */; };
 		83481DDC1BE9EA5900C1CF58 /* Main-Boundry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83481DDB1BE9EA5900C1CF58 /* Main-Boundry.swift */; };
@@ -49,6 +50,7 @@
 		8396F0131BE35728007DF30B /* ReactiveCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8396F0101BE35728007DF30B /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8396F0141BE35728007DF30B /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8396F0111BE35728007DF30B /* Result.framework */; };
 		8396F0151BE35728007DF30B /* Result.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8396F0111BE35728007DF30B /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		83E48F3C1BEA5AD5006F915E /* API-Pastebuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E48F3B1BEA5AD5006F915E /* API-Pastebuffer.swift */; };
 		83E991481BE783B40094E5F9 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E991471BE783B40094E5F9 /* SwiftyJSON.framework */; };
 		83E991491BE783CB0094E5F9 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E991471BE783B40094E5F9 /* SwiftyJSON.framework */; };
 		83E9914A1BE783D60094E5F9 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 83E991471BE783B40094E5F9 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -107,6 +109,7 @@
 		8396EFFF1BE2D53E007DF30B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8396F0101BE35728007DF30B /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/Mac/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		8396F0111BE35728007DF30B /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
+		83E48F3B1BEA5AD5006F915E /* API-Pastebuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API-Pastebuffer.swift"; sourceTree = "<group>"; };
 		83E991471BE783B40094E5F9 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -251,6 +254,7 @@
 		83E48F3A1BEA4BF4006F915E /* API-Pastebuffer */ = {
 			isa = PBXGroup;
 			children = (
+				83E48F3B1BEA5AD5006F915E /* API-Pastebuffer.swift */,
 			);
 			name = "API-Pastebuffer";
 			sourceTree = "<group>";
@@ -367,6 +371,7 @@
 				8373D8761BDF72C10018B0ED /* Main-Protocols.swift in Sources */,
 				8373D87F1BDF74060018B0ED /* Preferences-Protocols.swift in Sources */,
 				8373D8781BDF72C60018B0ED /* Main.swift in Sources */,
+				83E48F3C1BEA5AD5006F915E /* API-Pastebuffer.swift in Sources */,
 				83481DE61BEA09F200C1CF58 /* API_Mock.swift in Sources */,
 				8373D8861BDFFE5C0018B0ED /* Datamanagers.swift in Sources */,
 				837905CB1BE22BF60090E0ED /* Utilities.swift in Sources */,
@@ -396,6 +401,7 @@
 				8396F00C1BE2D78E007DF30B /* Preferences-Interactor.swift in Sources */,
 				8396F00A1BE2D78E007DF30B /* Preferences-Protocols.swift in Sources */,
 				83481DDD1BE9EC2600C1CF58 /* Main-Boundry.swift in Sources */,
+				8330CF811BEA7C6500C23F6C /* API-Pastebuffer.swift in Sources */,
 				5A4160AEE6AADB4FB4EC7806 /* Main-Servicefactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

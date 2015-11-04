@@ -8,17 +8,16 @@ import Result
 
 
 protocol InteractorInput_MAIN {
-	
-	//async, try also with a callback and see how the api differs from signals
-	func postGist() -> SignalProducer<NSURL,ProcessError>
-	
-	func countRecentFiles(config: Config_P) -> Int
-	
-	func recentFileEntry(config: Config_P, index: Int) -> Sample
-	
-	func clearRecentFiles(config: Config_P)
-	
-	func createStringOfOptions(config: Config_P) -> String
+    //async, try also with a callback and see how the api differs from signals
+    func postGist() -> SignalProducer<NSURL, GistRequestReason>
+
+    func countRecentFiles() -> Int
+
+    func recentFileEntry(index: Int) -> Sample
+
+    func clearRecentFiles()
+
+    func createStringOfOptions() -> String
 }
 
 
@@ -27,13 +26,10 @@ protocol InteractorInput_MAIN {
 
 
 protocol InteractorOutput_MAIN {
-	func giveMeTheURL() -> NSURL
+    func giveMeTheURL() -> NSURL
 }
 
 
-protocol PB_Gateway {
-	func getContents() -> GistData
-}
 
 
 
