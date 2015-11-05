@@ -1,9 +1,3 @@
-//
-//  Main-Servicefactory.swift
-//  Dialogue
-//
-
-
 import Foundation
 import Result
 
@@ -47,5 +41,3 @@ class GistServiceFactory {
 }
 
 
-struct UserCredential {
-}

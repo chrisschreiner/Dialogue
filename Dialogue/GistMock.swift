@@ -2,10 +2,9 @@ import ReactiveCocoa
 import Foundation
 
 
-
 class MockedApiForGist: API_MAIN {
     init(session: () -> NSURLSession) {
-		super.init()
+        super.init()
         self.session = session()
     }
 }
@@ -45,4 +44,6 @@ class MockSession: NSURLSession {
             completionHandler!(mockResponse.data, mockResponse.urlResponse, mockResponse.error)
         }
     }
+
+
 }

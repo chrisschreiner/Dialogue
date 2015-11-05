@@ -44,7 +44,7 @@ class PresenterInteractorTests: XCTestCase {
         XCTAssertEqual(i.recentFiles.count, 1)
     }
 
-    func testWithRecentFile() {
+    func testWith1RecentFile() {
         i.apiDatamanager = mockGistAPI(statusCode: 200, responseFile: kSampleFile)
         let sp = i.postGist().start()
 
@@ -52,9 +52,12 @@ class PresenterInteractorTests: XCTestCase {
         XCTAssertEqual(i.recentFiles.last, kSampleFile)
     }
 
-    func testWithTwoRecentFiles() {
+    func testWith2RecentFiles() {
         i.apiDatamanager = mockGistAPI(statusCode: 200, responseFile: kSampleFile + "1")
         i.postGist().start()
+
+        XCTAssertEqual(i.recentFiles.count, 1)
+        XCTAssertEqual(i.recentFiles.last, kSampleFile + "1")
 
         i.apiDatamanager = mockGistAPI(statusCode: 200, responseFile: kSampleFile + "2")
         i.postGist().start()

@@ -1,7 +1,4 @@
 import Cocoa
-import Result
-import SwiftyJSON
-import ReactiveCocoa
 
 
 class Interactor_MAIN {
@@ -17,28 +14,6 @@ class Interactor_MAIN {
 
     init() {
         recentFiles = RecentFilesArray()
-    }
-}
-
-
-class RecentFilesArray {
-    var _data: [String]
-    var count: Int {
-        return _data.count
-    }
-    var last: String? {
-        return _data.last
-    }
-    func append(s: String) {
-        _data.append(s)
-    }
-
-    func removeAll() {
-        _data.removeAll()
-    }
-
-    init() {
-        _data = []
     }
 }
 

@@ -1,11 +1,3 @@
-import Foundation
-
-
-protocol PB_Gateway {
-    func getContents() -> GistData
-}
-
-
 class PastebufferGatewayMock: PB_Gateway {
     let _callback: () -> GistData
 
