@@ -85,7 +85,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5A4168D3E6BA5182F31D9B0C /* Main-Servicefactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Main-Servicefactory.swift"; sourceTree = "<group>"; };
+		5A4168D3E6BA5182F31D9B0C /* Main-Servicefactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Main-Servicefactory.swift"; path = "Main/Services/Main-Servicefactory.swift"; sourceTree = "<group>"; };
 		8313A9CD1BDA0AB7005B365C /* Dialogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dialogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8313A9D01BDA0AB7005B365C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8313A9D41BDA0AB7005B365C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -93,19 +93,19 @@
 		8313A9D91BDA0AB7005B365C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83481DD71BE9E8B100C1CF58 /* Mocked.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mocked.swift; sourceTree = "<group>"; };
 		83481DD91BE9E9B400C1CF58 /* DT2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DT2.swift; sourceTree = "<group>"; };
-		83481DE51BEA09F200C1CF58 /* GistMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GistMock.swift; sourceTree = "<group>"; };
-		8373D87C1BDF730F0018B0ED /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
-		8373D87E1BDF74060018B0ED /* Preferences-Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Preferences-Protocols.swift"; sourceTree = "<group>"; };
-		8373D8801BDFB18E0018B0ED /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		8373D8821BDFE5670018B0ED /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
+		83481DE51BEA09F200C1CF58 /* GistMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GistMock.swift; path = Main/API/GistMock.swift; sourceTree = "<group>"; };
+		8373D87C1BDF730F0018B0ED /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Preferences.swift; path = Preferences/Preferences.swift; sourceTree = "<group>"; };
+		8373D87E1BDF74060018B0ED /* Preferences-Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Preferences-Protocols.swift"; path = "Preferences/Preferences-Protocols.swift"; sourceTree = "<group>"; };
+		8373D8801BDFB18E0018B0ED /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainWindow.xib; path = Main/MainWindow.xib; sourceTree = "<group>"; };
+		8373D8821BDFE5670018B0ED /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreferencesWindow.xib; path = Preferences/PreferencesWindow.xib; sourceTree = "<group>"; };
 		8373D8851BDFFE5C0018B0ED /* Datamanagers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datamanagers.swift; sourceTree = "<group>"; };
 		837905CA1BE22BF60090E0ED /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		837905CC1BE25F4F0090E0ED /* Preferences-Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Preferences-Interactor.swift"; sourceTree = "<group>"; };
+		837905CC1BE25F4F0090E0ED /* Preferences-Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Preferences-Interactor.swift"; path = "Preferences/Preferences-Interactor.swift"; sourceTree = "<group>"; };
 		8396EFFB1BE2D53E007DF30B /* DialogueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DialogueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8396EFFF1BE2D53E007DF30B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8396F0101BE35728007DF30B /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/Mac/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		8396F0111BE35728007DF30B /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
-		83E48F3B1BEA5AD5006F915E /* PastebufferMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PastebufferMock.swift; sourceTree = "<group>"; };
+		83E48F3B1BEA5AD5006F915E /* PastebufferMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PastebufferMock.swift; path = Main/API/PastebufferMock.swift; sourceTree = "<group>"; };
 		83E991471BE783B40094E5F9 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = "<group>"; };
 		83FDF4EC1BEC0C12009C66A1 /* Wireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Wireframe.swift; path = Main/Wireframe.swift; sourceTree = "<group>"; };
 		83FDF4EF1BEC0EFB009C66A1 /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Presenter.swift; path = Main/Presenter.swift; sourceTree = "<group>"; };

@@ -70,44 +70,39 @@ protocol PB_Gateway {
 
 
 protocol MAIN_Interactor_Input {
-	//async, try also with a callback and see how the api differs from signals
-	func postGist() -> ProducerOfGistSignals
-	
-	var recentFiles: RecentFilesArray { get set }
-	
-	func createStringOfOptions() -> String
+    func postGist() -> ProducerOfGistSignals
+
+    var recentFiles: RecentFilesArray { get set }
+
+    func createStringOfOptions() -> String
 }
 
-
-protocol RecentFilesP: MAIN_Interactor_Input {
-	var recentFiles: [String] { get set }
-}
 
 protocol InteractorOutput_MAIN {
-	func giveMeTheURL() -> NSURL
+    func giveMeTheURL() -> NSURL
 }
 
+
 protocol MAIN_Presenter_Input {
-	func openPreferences()
-	
-	func submitPasteboardAsGist()
-	
-	func clearRecentFiles()
+    func openPreferences()
+
+    func submitPasteboardAsGist()
+
+    func clearRecentFiles()
 }
 
 
 protocol ViewLifeCycle {
-	func viewIsReady()
+    func viewIsReady()
 }
 
 
-
 protocol ViewInterface_MAIN {
-	func setResultText(s: String)
-	
-	func setDatasourceForRecentFiles(datasource: NSTableViewDataSource)
-	
-	func setDelegateForRecentFiles(delegate: NSTableViewDelegate)
-	
-	func updateConstantOutput(s: String)
+    func setResultText(s: String)
+
+    func setDatasourceForRecentFiles(datasource: NSTableViewDataSource)
+
+    func setDelegateForRecentFiles(delegate: NSTableViewDelegate)
+
+    func updateConstantOutput(s: String)
 }
