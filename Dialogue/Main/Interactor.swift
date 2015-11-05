@@ -2,11 +2,11 @@ import Cocoa
 
 
 class Interactor_MAIN {
-    var apiDatamanager: API_MAIN_P?
+    var apiDatamanager: Gist_API_P?
     //TODO: Namechange GIST_API (|:?)
     var output: InteractorOutput_MAIN?
     //attached to the presenter
-    var pastebufferGateway: PB_Gateway?
+    var pastebufferGateway: Pastebuffer_API_P?
     //pastebuffer as a service, what about files?
     var config: Config_P?
 
@@ -19,7 +19,7 @@ class Interactor_MAIN {
 
 
 extension Interactor_MAIN: MAIN_Interactor_Input {
-    func postGist() -> ProducerOfGistSignals {
+    func postGist() -> GistSignalProducer {
 
         //setup all data here
         let contentsToGist = pastebufferGateway!.getContents()

@@ -13,7 +13,7 @@ func mockGistAPI(statusCode statusCode: Int = 0, responseFile: String = "http://
     }
 }
 
-func mockPastebufferAPI(pasteContent: String = "") -> PB_Gateway {
+func mockPastebufferAPI(pasteContent: String = "") -> Pastebuffer_API_P {
     return PastebufferGatewayMock {
         return GistData(data: pasteContent)
     }

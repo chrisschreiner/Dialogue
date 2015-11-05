@@ -1,4 +1,4 @@
-class PastebufferGatewayMock: PB_Gateway {
+class PastebufferGatewayMock: Pastebuffer_API_P {
     let _callback: () -> GistData
 
     func getContents() -> GistData {

@@ -68,7 +68,7 @@ extension Presenter_MAIN: InteractorOutput_MAIN {
 
 
 extension Presenter_MAIN: ViewLifeCycle {
-    func viewIsReady() {
+    func windowDidLoad() {
         view?.setDatasourceForRecentFiles(self)
         view?.setDelegateForRecentFiles(self)
 

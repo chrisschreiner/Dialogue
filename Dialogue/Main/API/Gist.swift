@@ -6,31 +6,31 @@ import ReactiveCocoa
 
 
 
-class API_MAIN: API_MAIN_P {
+class API_MAIN: Gist_API_P {
 	var session: NSURLSession!
-	
-	func postGist(content: GistData, config: Config_P) -> ProducerOfGistSignals {
+
+	func postGist(content: GistData, config: Config_P) -> GistSignalProducer {
 		return SignalProducer {
 			o, d in
-			
+
 			let g = GistRequestData()
 			if self.session == nil {
 				self.session = NSURLSession.sharedSession()
 			}
-			
+
 			self.performWebRequest(self.session, request: g, completion: {
 				result in switch result {
 				case .Success(let response):
 					o.sendNext(response)
 					o.sendCompleted()
-					
+
 				case .Failure(let reason):
 					o.sendFailed(reason)
 				}
 			})
 		}
 	}
-	
+
 	private struct GistRequestData {
 		var authorized: Bool = false
 		var serviceType: Int = 0
@@ -42,13 +42,13 @@ class API_MAIN: API_MAIN_P {
 		var isPublic: Bool = false
 		var content: String = "123"
 	}
-	
-	
+
+
 	private func gistHTTPBody(gr: GistRequestData) -> [String:AnyObject] {
 		return ["description": "\(gr.header.description)", "public": gr.isPublic, "files": [gr.header.filename: ["content": gr.content]], ]
 	}
-	
-	
+
+
 	private func createURLRequest(gr: GistRequestData) -> NSMutableURLRequest {
 		var request = NSMutableURLRequest()
 		if gr.updateGist {
@@ -59,19 +59,19 @@ class API_MAIN: API_MAIN_P {
 			request = NSMutableURLRequest(URL: gr.connectionURL!)
 			request.HTTPMethod = "POST"
 		}
-		
+
 		let data = try! JSON(gistHTTPBody(gr)).rawData()
 		request.HTTPBody = data
 		request.addValue("application/vnd.github.v3+json", forHTTPHeaderField: "Accept")
-		
+
 		//	if let token = oauth.getToken() {
 		//		request.addValue("token \(token)", forHTTPHeaderField: "Authorization")
 		//	}
-		
+
 		return request
 	}
-	
-	
+
+
 	private func performWebRequest(session: NSURLSession, request dataForRequest: GistRequestData, completion: ResultType) {
 		let request = createURLRequest(dataForRequest)
 		let task = session.dataTaskWithRequest(request) {
@@ -82,12 +82,12 @@ class API_MAIN: API_MAIN_P {
 					let jsonData = JSON(data: data!)
 					if let gistURL = jsonData["html_url"].URL, gistID = jsonData["id"].string {
 						print(response) //TODO:Decide which file to capture
-						
+
 						completion(.Success((url: gistURL, gid: gistID)))
 					} else {
 						completion(.Failure(.ErrorResponse("Response-json had an unexpected format, missing fields: html_url or id, statuscode=\(r.statusCode)")))
 					}
-					
+
 				default:
 					completion(.Failure(.OtherErrorResponse(r.statusCode)))
 				}

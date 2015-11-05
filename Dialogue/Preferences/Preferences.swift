@@ -27,7 +27,7 @@ class View_PREFERENCES: NSWindowController, NSWindowDelegate {
 
     override func windowDidLoad() {
         //TODO:find a proper place for this (awakeFromNib/prepare/here)
-        viewLifeCycle?.viewIsReady()
+        viewLifeCycle?.windowDidLoad()
     }
 }
 
@@ -113,7 +113,7 @@ extension Presenter_PREFERENCES: ModuleInterface_PREFERENCES {
 
 
 extension Presenter_PREFERENCES: ViewLifeCycle {
-    func viewIsReady() {
+    func windowDidLoad() {
         interactor?.setInitialValues()
     }
 }

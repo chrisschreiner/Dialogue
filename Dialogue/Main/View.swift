@@ -43,7 +43,7 @@ class View_MAIN: NSWindowController, NSWindowDelegate {
     override func windowDidLoad() {
         super.windowDidLoad()
         self.window?.delegate = self
-        viewLifeCycle?.viewIsReady()
+        viewLifeCycle?.windowDidLoad()
     }
 
     func windowWillClose(notification: NSNotification) {

@@ -5,7 +5,7 @@ import Result
 typealias GistID = String
 typealias SuccessResponse = (url:NSURL, gid:GistID)
 typealias ResultType = Result<SuccessResponse, GistRequestReason> -> Void
-typealias ProducerOfGistSignals = SignalProducer<SuccessResponse, GistRequestReason>
+typealias GistSignalProducer = SignalProducer<SuccessResponse, GistRequestReason>
 
 
 enum GistRequestReason: ErrorType {
@@ -59,18 +59,18 @@ struct GistData {
 }
 
 
-protocol API_MAIN_P {
-    func postGist(content: GistData, config: Config_P) -> ProducerOfGistSignals
+protocol Gist_API_P {
+    func postGist(content: GistData, config: Config_P) -> GistSignalProducer
 }
 
 
-protocol PB_Gateway {
+protocol Pastebuffer_API_P {
     func getContents() -> GistData
 }
 
 
 protocol MAIN_Interactor_Input {
-    func postGist() -> ProducerOfGistSignals
+    func postGist() -> GistSignalProducer
 
     var recentFiles: RecentFilesArray { get set }
 
@@ -93,7 +93,7 @@ protocol MAIN_Presenter_Input {
 
 
 protocol ViewLifeCycle {
-    func viewIsReady()
+    func windowDidLoad()
 }
 
 
