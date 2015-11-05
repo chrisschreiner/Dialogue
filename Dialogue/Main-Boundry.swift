@@ -7,17 +7,18 @@ import Result
 /// Messages from `Presenter` to `Interactor`
 
 
-protocol InteractorInput_MAIN {
+protocol MAIN_Interactor_Input {
     //async, try also with a callback and see how the api differs from signals
-    func postGist() -> SignalProducer<NSURL, GistRequestReason>
+    func postGist() -> ProducerOfGistSignals
 
-    func countRecentFiles() -> Int
-
-    func recentFileEntry(index: Int) -> Sample
-
-    func clearRecentFiles()
+    var recentFiles: RecentFilesArray { get set }
 
     func createStringOfOptions() -> String
+}
+
+
+protocol RecentFilesP: MAIN_Interactor_Input {
+    var recentFiles: [String] { get set }
 }
 
 
@@ -28,8 +29,3 @@ protocol InteractorInput_MAIN {
 protocol InteractorOutput_MAIN {
     func giveMeTheURL() -> NSURL
 }
-
-
-
-
-

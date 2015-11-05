@@ -5,55 +5,66 @@ import ReactiveCocoa
 
 
 class Interactor_MAIN {
-	var apiDatamanager: API_MAIN_P?
-	//TODO: Namechange GIST_API (|:?)
-	var output: InteractorOutput_MAIN?
-	//attached to the presenter
-	var pastebufferGateway: PB_Gateway?
-	//pastebuffer as a service, what about files?
-	var config: Config_P?
+    var apiDatamanager: API_MAIN_P?
+    //TODO: Namechange GIST_API (|:?)
+    var output: InteractorOutput_MAIN?
+    //attached to the presenter
+    var pastebufferGateway: PB_Gateway?
+    //pastebuffer as a service, what about files?
+    var config: Config_P?
+
+    var recentFiles: RecentFilesArray
+
+    init() {
+        recentFiles = RecentFilesArray()
+    }
 }
 
 
-extension Interactor_MAIN: InteractorInput_MAIN {
-	func postGist() -> SignalProducer<NSURL,GistRequestReason> {
+class RecentFilesArray {
+    var _data: [String]
+    var count: Int {
+        return _data.count
+    }
+    var last: String? {
+        return _data.last
+    }
+    func append(s: String) {
+        _data.append(s)
+    }
 
-		//setup all data here
-		let contentsToGist = pastebufferGateway!.getContents()
-		let config = self.config!
+    func removeAll() {
+        _data.removeAll()
+    }
 
-		print(config)
-		
-		return apiDatamanager!.postGist(contentsToGist, config:config) // <- feed me
-	}
-
-	func countRecentFiles() -> Int {
-		return self.config!.countRecentFiles()
-	}
-
-	func recentFileEntry(index: Int) -> Sample {
-		if let recentFile = self.config!.getRecentFile(index) {
-			let a = recentFile.filename
-			let b = recentFile.url.characters.count
-
-			let s = Sample(a: a, b: b)
-			return s
-		}
-		preconditionFailure()
-	}
-
-	func clearRecentFiles() {
-		self.config!.clearRecentFiles()
-	}
-
-	func createStringOfOptions() -> String {
-		let gist = GistService(rawValue: config!.activeGistServiceIndex ?? 0)!
-		let shorten = ShortenService(rawValue: config!.activeShortenServiceIndex ?? 0)!
-		let secret = config!.secretGists ?? true
-		let recentCount = config!.countRecentFiles()
-
-		return "\(gist)\n\(shorten)\n\(secret ? "Secret" : "public")\nRecent count \(recentCount)"
-	}
-
+    init() {
+        _data = []
+    }
 }
 
+
+extension Interactor_MAIN: MAIN_Interactor_Input {
+    func postGist() -> ProducerOfGistSignals {
+
+        //setup all data here
+        let contentsToGist = pastebufferGateway!.getContents()
+        let config = self.config!
+        let sp = self.apiDatamanager!.postGist(contentsToGist, config: config)
+
+        sp.startWithNext {
+            a in let responseFile = a.url.absoluteString
+            self.recentFiles.append(responseFile)
+        }
+
+        return sp
+    }
+
+    func createStringOfOptions() -> String {
+        let gist = GistService(rawValue: config!.activeGistServiceIndex ?? 0)!
+        let shorten = ShortenService(rawValue: config!.activeShortenServiceIndex ?? 0)!
+        let secret = config!.secretGists ?? true
+        let recentCount = self.recentFiles.count
+
+        return "\(gist)\n\(shorten)\n\(secret ? "Secret" : "public")\nRecent count \(recentCount)"
+    }
+}

@@ -3,7 +3,7 @@ import ReactiveCocoa
 
 
 class View_MAIN: NSWindowController, NSWindowDelegate {
-    var eventHandler: ModuleInterface_MAIN?
+    var eventHandler: MAIN_Presenter_Input?
     var viewLifeCycle: ViewLifeCycle?
 
     override var windowNibName: String? {
@@ -78,7 +78,7 @@ class Wireframe_MAIN {
 
     init(config: Config_P) {
         interactor = Interactor_MAIN()
-        presenter = Presenter_MAIN(config: config)
+        presenter = Presenter_MAIN()
         presenter?.wireframe = self
         view = View_MAIN()
         view?.viewLifeCycle = presenter //TODO:Think through; could this be handled by the wireframe?
@@ -92,11 +92,6 @@ class Wireframe_MAIN {
         presenter?.view = view
     }
 
-//    func show() {
-//        /// Who should show - wireframe or presenter?
-//        view?.showWindow(nil)
-//    }
-
     func presentPreferences() {
         preferencesWireframe = Wireframe_PREFERENCES(config: self.interactor!.config!)
         preferencesWireframe?.show()
@@ -106,13 +101,8 @@ class Wireframe_MAIN {
 
 class Presenter_MAIN: NSObject {
     var view: ViewInterface_MAIN?
-    var interactor: InteractorInput_MAIN?
+    var interactor: MAIN_Interactor_Input?
     var wireframe: Wireframe_MAIN?
-    //var config: Config_P
-
-    init(config: Config_P) {
-        //self.config = config
-    }
 
     func updateOptions(sender: NSNotification) {
         updateConstantOptionsField()
@@ -128,12 +118,11 @@ class Presenter_MAIN: NSObject {
 
 extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return interactor?.countRecentFiles() ?? 0
+        return interactor!.recentFiles.count // countRecentFiles() ?? 0
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let column1RecentFiles = "column1"
-        //let column2RecentFiles = "column2"
 
         let t = NSTextField()
         t.bordered = false
@@ -153,7 +142,7 @@ extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
 }
 
 
-extension Presenter_MAIN: ModuleInterface_MAIN {
+extension Presenter_MAIN: MAIN_Presenter_Input {
     func openPreferences() {
         wireframe?.presentPreferences()
     }
@@ -164,7 +153,7 @@ extension Presenter_MAIN: ModuleInterface_MAIN {
 
 
     func clearRecentFiles() {
-        interactor?.clearRecentFiles()
+        interactor!.recentFiles.removeAll()
     }
 }
 

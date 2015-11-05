@@ -29,15 +29,6 @@ protocol Config_P {
     var activeGistServiceIndex: Int { get set }
     var activeShortenServiceIndex: Int { get set }
     var secretGists: Bool { get set }
-    //var recentFiles: [RecentFile] {get set}
-
-    func countRecentFiles() -> Int
-
-    func getRecentFile(index: Int) -> RecentFile?
-
-    func addRecentFile(rf: RecentFile)
-
-    func clearRecentFiles()
 
     func notifyWorld()
 
@@ -88,26 +79,28 @@ class Config: Config_P {
         }
     }
 
-    //TODO:This is stupid and wrong, fix it asap
-    func countRecentFiles() -> Int {
-        return recentFiles?.count ?? 0
-    }
+    /*
+        //TODO:This is stupid and wrong, fix it asap
+        func countRecentFiles() -> Int {
+            return recentFiles?.count ?? 0
+        }
 
-    func getRecentFile(index: Int) -> RecentFile? {
-        return recentFiles?[index]
-    }
+        func getRecentFile(index: Int) -> RecentFile? {
+            return recentFiles?[index]
+        }
 
-    func addRecentFile(rf: RecentFile) {
-        recentFiles?.append(rf)
-        notifyWorld()
-    }
+        func addRecentFile(rf: RecentFile) {
+            recentFiles?.append(rf)
+            notifyWorld()
+        }
 
-    func clearRecentFiles() {
-        recentFiles?.removeAll(keepCapacity: false)
-        notifyWorld()
-    }
+        func clearRecentFiles() {
+            recentFiles?.removeAll(keepCapacity: false)
+            notifyWorld()
+        }
 
-    var recentFiles: [RecentFile]? = []
+        var recentFiles: [RecentFile]? = []
+    */
 
     func notifyWorld() {
         NSNotificationCenter.defaultCenter().postNotificationName(NotificationNameOptionsUpdated, object: nil)

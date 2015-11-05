@@ -4,20 +4,26 @@ import SwiftyJSON
 import ReactiveCocoa
 
 
+typealias GistID = String
+typealias SuccessResponse = (url:NSURL, gid:GistID)
+typealias ResultType = Result<SuccessResponse, GistRequestReason> -> Void
+typealias ProducerOfGistSignals = SignalProducer<SuccessResponse, GistRequestReason>
+
+
 class API_MAIN: API_MAIN_P {
-	var session: NSURLSession!
-	
-    func postGist(content: GistData, config: Config_P) -> SignalProducer<NSURL, GistRequestReason> {
-        return SignalProducer { o, d in
-			
-			let g = GistRequestData()
+    var session: NSURLSession!
+
+    func postGist(content: GistData, config: Config_P) -> ProducerOfGistSignals {
+        return SignalProducer {
+            o, d in
+
+            let g = GistRequestData()
             //let session = NSURLSession.sharedSession()
 
-            self.performWebRequest(self.session, request: g, completion: {result in
-				switch result {
-                case .Success(let value, _):
-					print(value)
-                    o.sendNext(value)
+            self.performWebRequest(self.session, request: g, completion: {
+                result in switch result {
+                case .Success(let response):
+                    o.sendNext(response)
                     o.sendCompleted()
 
                 case .Failure(let reason):
@@ -26,9 +32,6 @@ class API_MAIN: API_MAIN_P {
             })
         }
     }
-
-
-    private typealias ResultType = Result<(NSURL, String), GistRequestReason> -> Void
 
 
     private struct GistRequestData {
@@ -76,23 +79,24 @@ class API_MAIN: API_MAIN_P {
         let request = createURLRequest(dataForRequest)
         let task = session.dataTaskWithRequest(request) {
             data, response, error in //		let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
-			if let r = response as? NSHTTPURLResponse {
+            if let r = response as? NSHTTPURLResponse {
+                switch r.statusCode {
+                case 200 ..< 300:
+                    let jsonData = JSON(data: data!)
+                    if let gistURL = jsonData["html_url"].URL, gistID = jsonData["id"].string {
+                        print(response) //TODO:Decide which file to capture
 
-            switch r.statusCode {
-            case 200 ..< 300:
-                let jsonData = JSON(data: data!)
-                if let gistURL = jsonData["html_url"].URL, gistID = jsonData["id"].string {
-                    completion(.Success(gistURL, gistID))
-                } else {
-                    completion(.Failure(.ErrorResponse("Response-json had an unexpected format, missing fields: html_url or id, statuscode=\(r.statusCode)")))
+                        completion(.Success((url: gistURL, gid: gistID)))
+                    } else {
+                        completion(.Failure(.ErrorResponse("Response-json had an unexpected format, missing fields: html_url or id, statuscode=\(r.statusCode)")))
+                    }
+
+                default:
+                    completion(.Failure(.OtherErrorResponse(r.statusCode)))
                 }
-
-            default:
-                completion(.Failure(.OtherErrorResponse(r.statusCode)))
+            } else {
+                completion(.Failure(.ErrorResponse("response was nil (?)")))
             }
-			} else {
-				completion(.Failure(.ErrorResponse("response was nil (?)")))
-			}
         }
         task.resume()
     }

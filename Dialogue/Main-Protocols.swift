@@ -8,7 +8,7 @@ import Result
 /// (aka View.eventHandler)
 
 
-protocol ModuleInterface_MAIN {
+protocol MAIN_Presenter_Input {
     func openPreferences()
 
     func submitPasteboardAsGist()
