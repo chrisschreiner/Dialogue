@@ -26,15 +26,15 @@ let kSampleFile = "filename.ext"
 
 
 class InteractorPostTests: XCTestCase {
-    var i: Interactor_MAIN!
+    var i: MAIN_Interactor!
 
     override func setUp() {
         super.setUp()
 
-        i = Interactor_MAIN()
+        i = MAIN_Interactor()
         i.config = Config()
         i.pastebufferGateway = mockPastebufferAPI("default paste content")
-        i.apiDatamanager = mockGistAPI(statusCode: 200)
+        i.apiGist = mockGistAPI(statusCode: 200)
     }
 
     override func tearDown() {
@@ -47,7 +47,7 @@ class InteractorPostTests: XCTestCase {
     }
 
     func testWith1RecentFile() {
-        i.apiDatamanager = mockGistAPI(statusCode: 200, responseFile: kSampleFile)
+        i.apiGist = mockGistAPI(statusCode: 200, responseFile: kSampleFile)
         i.postGist().start()
 
         XCTAssertEqual(i.recentFiles.count, 1)
@@ -55,13 +55,15 @@ class InteractorPostTests: XCTestCase {
     }
 
     func testWith2RecentFiles() {
-        i.apiDatamanager = mockGistAPI(statusCode: 200, responseFile: kSampleFile + "1")
+        i.pastebufferGateway = mockPastebufferAPI("default paste content")
+		
+        i.apiGist = mockGistAPI(statusCode: 200, responseFile: kSampleFile + "1")
         i.postGist().start()
 
         XCTAssertEqual(i.recentFiles.count, 1)
         XCTAssertEqual(i.recentFiles.last, kSampleFile + "1")
 
-        i.apiDatamanager = mockGistAPI(statusCode: 200, responseFile: kSampleFile + "2")
+        i.apiGist = mockGistAPI(statusCode: 200, responseFile: kSampleFile + "2")
         i.postGist().start()
 
         XCTAssertEqual(i.recentFiles.count, 2)
@@ -71,15 +73,15 @@ class InteractorPostTests: XCTestCase {
 
 
 class DT2: XCTestCase {
-    var i: Interactor_MAIN!
+    var i: MAIN_Interactor!
     var config: Config_P!
-	
+
     override func setUp() {
         super.setUp()
 
         config = Config() //mock?
 
-        i = Interactor_MAIN()
+        i = MAIN_Interactor()
         i.config = config
         i.pastebufferGateway = PastebufferGatewayMock {
             return GistData(data: "packet")
@@ -95,7 +97,7 @@ class DT2: XCTestCase {
     }
 
     func testPostGist() {
-		i.apiDatamanager = mockGistAPI(statusCode: 201, responseFile: kSampleFile, jsonData:JSON(["html_url": kSampleFile, "id": "12345678", ]))
+		i.apiGist = mockGistAPI(statusCode: 201, responseFile: kSampleFile, jsonData:JSON(["html_url": kSampleFile, "id": "12345678", ]))
 
         let e = expectationWithDescription("...")
 
@@ -109,7 +111,7 @@ class DT2: XCTestCase {
     }
 
     func testPostGistWithFailure() {
-		i.apiDatamanager = mockGistAPI(statusCode: 400)
+		i.apiGist = mockGistAPI(statusCode: 400)
 
         let e = expectationWithDescription("...")
 
@@ -125,7 +127,7 @@ class DT2: XCTestCase {
     }
 
     func testPostGistWithIncompleteFields() {
-		i.apiDatamanager = mockGistAPI(statusCode: 201, responseFile: kSampleFile, jsonData:JSON(["wrong_field_name": kSampleFile]))
+		i.apiGist = mockGistAPI(statusCode: 201, responseFile: kSampleFile, jsonData:JSON(["wrong_field_name": kSampleFile]))
 
         let e = expectationWithDescription("...")
 
@@ -141,7 +143,7 @@ class DT2: XCTestCase {
     }
 
     func testPostGistStatusCode999() {
-		i.apiDatamanager = mockGistAPI(statusCode: 999)
+		i.apiGist = mockGistAPI(statusCode: 999)
 
         let e = expectationWithDescription("...")
 

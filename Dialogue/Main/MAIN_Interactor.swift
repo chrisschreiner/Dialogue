@@ -4,10 +4,9 @@
 import Cocoa
 
 
-class Interactor_MAIN {
-    var apiDatamanager: Gist_API_P?
-    //TODO: Namechange GIST_API (|:?)
-    var output: InteractorOutput_MAIN?
+class MAIN_Interactor {
+    var apiGist: Gist_API_P?
+    var output: MAIN_InteractorOutput?
     //attached to the presenter
     var pastebufferGateway: Pastebuffer_API_P?
     //pastebuffer as a service, what about files?
@@ -21,13 +20,13 @@ class Interactor_MAIN {
 }
 
 
-extension Interactor_MAIN: MAIN_Interactor_Input {
+extension MAIN_Interactor: MAIN_InteractorInput {
     func postGist() -> GistSignalProducer {
 
         //setup all data here
         let contentsToGist = pastebufferGateway!.getContents()
         let config = self.config!
-        let sp = self.apiDatamanager!.postGist(contentsToGist, config: config)
+        let sp = self.apiGist!.postGist(contentsToGist, config: config)
 
         sp.startWithNext {
             a in let responseFile = a.url.absoluteString

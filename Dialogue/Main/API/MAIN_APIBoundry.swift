@@ -23,47 +23,8 @@ enum GistRequestReason: ErrorType {
 struct UserCredential {
 }
 
-
-class RecentFilesArray {
-    var _data: [String]
-    var count: Int {
-        return _data.count
-    }
-    var last: String? {
-        return _data.last
-    }
-    func append(s: String) {
-        _data.append(s)
-    }
-
-    func removeAll() {
-        _data.removeAll()
-    }
-
-    init() {
-        _data = []
-    }
-}
-
-
-struct GistData {
-    var data: String
-    init(item: PBItem) {
-        switch item {
-        case .Text(let text):
-            self.data = text
-        default:
-            preconditionFailure("undefined")
-        }
-    }
-    init(data: String) {
-        self.data = data
-    }
-}
-
-
 protocol Gist_API_P {
-	func postGist(content: GistData, config: Config_P) -> GistSignalProducer
+    func postGist(content: GistData, config: Config_P) -> GistSignalProducer
 }
 
 
@@ -72,21 +33,21 @@ protocol Pastebuffer_API_P {
 }
 
 
-protocol MAIN_Interactor_Input {
+protocol MAIN_InteractorInput {
     func postGist() -> GistSignalProducer
 
-    var recentFiles: RecentFilesArray { get set }
-
     func createStringOfOptions() -> String
+
+    var recentFiles: RecentFilesArray { get set }
 }
 
 
-protocol InteractorOutput_MAIN {
+protocol MAIN_InteractorOutput {
     func giveMeTheURL() -> NSURL
 }
 
 
-protocol MAIN_Presenter_Input {
+protocol MAIN_PresenterInput {
     func openPreferences()
 
     func submitPasteboardAsGist()
@@ -100,7 +61,7 @@ protocol ViewLifeCycle {
 }
 
 
-protocol ViewInterface_MAIN {
+protocol MAIN_ViewInput {
     func setResultText(s: String)
 
     func setDatasourceForRecentFiles(datasource: NSTableViewDataSource)

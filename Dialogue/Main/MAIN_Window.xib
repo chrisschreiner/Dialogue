@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="View_MAIN" customModule="Dialogue" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="MAIN_View" customModule="Dialogue" customModuleProvider="target">
             <connections>
                 <outlet property="clearRecentFiles" destination="Uva-0z-2Nf" id="1lP-Dh-Ryv"/>
                 <outlet property="constantOutput" destination="OfS-bm-CiN" id="IQP-WC-jXf"/>
@@ -111,9 +111,9 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TA5-fi-MRr">
-                        <rect key="frame" x="123" y="392" width="64" height="17"/>
+                        <rect key="frame" x="123" y="392" width="42" height="17"/>
                         <animations/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Response" id="AIp-0o-5Os">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Result" id="AIp-0o-5Os">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

@@ -1,11 +1,7 @@
 import Cocoa
 
 
-struct UserDefaultsKeys {
-    static let GistServiceIndexKey = "gistServiceIndex"
-    static let ShortenServiceIndexKey = "shortenServiceIndex"
-    static let SecretGistKey = "secretGists"
-}
+let NotificationNameOptionsUpdated = "OptionsUpdated"
 
 
 struct ConfigurationRecord {
@@ -19,8 +15,6 @@ struct ConfigurationRecord {
 		self.secretGists = data.secretGists
 	}
 }
-
-let NotificationNameOptionsUpdated = "OptionsUpdated"
 
 
 protocol Config_P {
@@ -37,7 +31,14 @@ protocol Config_P {
 
 
 class Config: Config_P {
-    private var userDefaults = NSUserDefaults.standardUserDefaults()
+	private struct UserDefaultsKeys {
+		static let GistServiceIndexKey = "gistServiceIndex"
+		static let ShortenServiceIndexKey = "shortenServiceIndex"
+		static let SecretGistKey = "secretGists"
+	}
+	
+
+	private var userDefaults = NSUserDefaults.standardUserDefaults()
 
     var activeGistService: GistService {
         get {
@@ -79,29 +80,6 @@ class Config: Config_P {
         }
     }
 
-    /*
-        //TODO:This is stupid and wrong, fix it asap
-        func countRecentFiles() -> Int {
-            return recentFiles?.count ?? 0
-        }
-
-        func getRecentFile(index: Int) -> RecentFile? {
-            return recentFiles?[index]
-        }
-
-        func addRecentFile(rf: RecentFile) {
-            recentFiles?.append(rf)
-            notifyWorld()
-        }
-
-        func clearRecentFiles() {
-            recentFiles?.removeAll(keepCapacity: false)
-            notifyWorld()
-        }
-
-        var recentFiles: [RecentFile]? = []
-    */
-
     func notifyWorld() {
         NSNotificationCenter.defaultCenter().postNotificationName(NotificationNameOptionsUpdated, object: nil)
     }
@@ -110,4 +88,43 @@ class Config: Config_P {
 		return ConfigurationRecord(fromDataManager:self)
 	}
 
+}
+
+
+
+class RecentFilesArray {
+	var _data: [String]
+	var count: Int {
+		return _data.count
+	}
+	var last: String? {
+		return _data.last
+	}
+	func append(s: String) {
+		_data.append(s)
+	}
+	
+	func removeAll() {
+		_data.removeAll()
+	}
+	
+	init() {
+		_data = []
+	}
+}
+
+
+struct GistData {
+	var data: String
+	init(item: PBItem) {
+		switch item {
+		case .Text(let text):
+			self.data = text
+		default:
+			preconditionFailure("undefined")
+		}
+	}
+	init(data: String) {
+		self.data = data
+	}
 }

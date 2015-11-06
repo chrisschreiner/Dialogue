@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="View_PREFERENCES" customModule="Dialogue" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="PREF_View" customModule="Dialogue" customModuleProvider="target">
             <connections>
                 <outlet property="gistService" destination="cfO-xy-lgZ" id="KCV-lY-SCE"/>
                 <outlet property="secretGists" destination="VgQ-AO-3fu" id="wU1-fT-xfa"/>
@@ -18,7 +18,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="159" height="171"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="159" height="171"/>
                 <autoresizingMask key="autoresizingMask"/>

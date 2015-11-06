@@ -1,10 +1,10 @@
 import Cocoa
 
 
-class Presenter_MAIN: NSObject {
-    var view: ViewInterface_MAIN?
-    var interactor: MAIN_Interactor_Input?
-    var wireframe: Wireframe_MAIN?
+class MAIN_Presenter: NSObject {
+    var view: MAIN_ViewInput?
+    var interactor: MAIN_InteractorInput?
+    var wireframe: MAIN_Wireframe?
 
     func updateOptions(sender: NSNotification) {
         updateConstantOptionsField()
@@ -18,7 +18,7 @@ class Presenter_MAIN: NSObject {
 }
 
 
-extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
+extension MAIN_Presenter: NSTableViewDataSource, NSTableViewDelegate {
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         return interactor!.recentFiles.count // countRecentFiles() ?? 0
     }
@@ -44,7 +44,7 @@ extension Presenter_MAIN: NSTableViewDataSource, NSTableViewDelegate {
 }
 
 
-extension Presenter_MAIN: MAIN_Presenter_Input {
+extension MAIN_Presenter: MAIN_PresenterInput {
     func openPreferences() {
         wireframe?.presentPreferences()
     }
@@ -60,14 +60,14 @@ extension Presenter_MAIN: MAIN_Presenter_Input {
 }
 
 
-extension Presenter_MAIN: InteractorOutput_MAIN {
+extension MAIN_Presenter: MAIN_InteractorOutput {
     func giveMeTheURL() -> NSURL {
         return NSURL(string: "whatever")! //TODO:Check
     }
 }
 
 
-extension Presenter_MAIN: ViewLifeCycle {
+extension MAIN_Presenter: ViewLifeCycle {
     func windowDidLoad() {
         view?.setDatasourceForRecentFiles(self)
         view?.setDelegateForRecentFiles(self)

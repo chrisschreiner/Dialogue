@@ -2,12 +2,12 @@ import Cocoa
 import ReactiveCocoa
 
 
-class View_MAIN: NSWindowController, NSWindowDelegate {
-    var eventHandler: MAIN_Presenter_Input?
+class MAIN_View: NSWindowController, NSWindowDelegate {
+    var eventHandler: MAIN_PresenterInput?
     var viewLifeCycle: ViewLifeCycle?
 
     override var windowNibName: String? {
-        return "MainWindow"
+        return "MAIN_Window"
     }
 
     @IBOutlet weak var name: NSTextField!
@@ -51,7 +51,7 @@ class View_MAIN: NSWindowController, NSWindowDelegate {
 }
 
 
-extension View_MAIN: ViewInterface_MAIN {
+extension MAIN_View: MAIN_ViewInput {
     func setResultText(s: String) {
         result.stringValue = s
     }

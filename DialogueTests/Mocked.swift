@@ -6,7 +6,7 @@
 import Foundation
 
 
-class MockedPresenter: InteractorOutput_MAIN {
+class MockedPresenter: MAIN_InteractorOutput {
 	let _closure: () -> NSURL
 	func giveMeTheURL() -> NSURL {
 		return _closure()

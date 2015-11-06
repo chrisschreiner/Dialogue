@@ -4,33 +4,9 @@ import Cocoa
 typealias UserID = String
 
 
-struct Bunny {
-    let gist: GistService
-    let shorten: ShortenService
-    let secret: Bool
-}
-
-
 struct Sample {
     let a: String
     let b: Int
-}
-
-
-struct RecentFile {
-    let filename: String
-    let url: String
-
-    init(url: NSURL) {
-        self.filename = url.lastPathComponent!
-        self.url = url.absoluteString
-    }
-}
-
-
-struct UserEntity {
-    var name: String
-    var age: Int
 }
 
 
@@ -142,39 +118,3 @@ enum PBItem: CustomStringConvertible {
         }
     }
 }
-
-
-/*
-struct GistOptions {
-var gistHTTPBody: [String:String] {
-return [
-"description": self.options.description,
-"public": !self.options.publicGist,
-"files": [self.options.fileName: ["content": content]],
-]
-}
-}
-
-
-func makeRequest(updateGist: Bool, gistID: String, gistOptions: GistOptions) -> NSMutableURLRequest {
-let request = NSMutableURLRequest()
-if updateGist {
-let updateURL = connectionURL.URLByAppendingPathComponent(gistID!)
-request = NSMutableURLRequest(URL: updateURL)
-request.HTTPMethod = "PATCH"
-} else {
-request = NSMutableURLRequest(URL: connectionURL)
-request.HTTPMethod = "POST"
-}
-
-request.HTTPBody = try! JSON(gistOptions.gistHTTPBody.rawData())
-request.addValue("application/vnd.github.v3+json", forHTTPHeaderField: "Accept")
-
-if let token = oauth.getToken() {
-request.addValue("token \(token)", forHTTPHeaderField: "Authorization")
-}
-
-return request
-}
-
-*/
