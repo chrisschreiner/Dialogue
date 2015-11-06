@@ -6,11 +6,10 @@ class PREF_Wireframe {
 	var presenter: PREF_Presenter
     var window: PREF_View
 
-    init(config: Config_P) {
-        interactor = PREF_Interactor()
+    init(appModel: AppModel_P) {
+		interactor = PREF_Interactor(appModel:appModel)
         interactor.apiGateway = PREF_API_P()
-        interactor.config = config
-
+		
         window = PREF_View()
 
         presenter = PREF_Presenter()

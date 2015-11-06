@@ -74,7 +74,7 @@ extension MAIN_Presenter: ViewLifeCycle {
 
         //TODO:Tear down observer somewhere appropriate
         let n = NSNotificationCenter.defaultCenter()
-        n.addObserver(self, selector: Selector("updateOptions:"), name: NotificationNameOptionsUpdated, object: nil)
+        n.addObserver(self, selector: Selector("updateOptions:"), name: PreferencesUpdatedNotification, object: nil)
         updateConstantOptionsField()
     }
 }

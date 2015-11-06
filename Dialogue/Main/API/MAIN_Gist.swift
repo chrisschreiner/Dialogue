@@ -6,22 +6,22 @@ import ReactiveCocoa
 
 class API_MAIN: Gist_API_P {
 	var session: NSURLSession!
-	
-	func postGist___(content: GistData, config: Config_P) -> GistSignalProducer {
+
+	func postGist___(content: GistData, config: AppModel_P) -> GistSignalProducer {
 		return SignalProducer {
 			o, d in
-			
+
 			let g = GistRequestData()
 			if self.session == nil {
 				self.session = NSURLSession.sharedSession()
 			}
-			
+
 			self.performWebRequest(self.session, request: g, completion: {
 				result in switch result {
 				case .Success(let response):
 					o.sendNext(response)
 					o.sendCompleted()
-					
+
 				case .Failure(let reason):
 					o.sendFailed(reason)
 				}
@@ -29,12 +29,12 @@ class API_MAIN: Gist_API_P {
 		}
 	}
 
-	func postGist(content: GistData, config: Config_P) -> GistSignalProducer {
+	func postGist(content: GistData, config: AppModel_P) -> GistSignalProducer {
 		let g = GistRequestData()
 		if self.session == nil {
 			self.session = NSURLSession.sharedSession()
 		}
-		
+
 		return self.performWebRequest(self.session, request: g)
 	}
 
@@ -47,13 +47,13 @@ class API_MAIN: Gist_API_P {
 		var isPublic: Bool = false
 		var content: String = "123"
 	}
-	
-	
+
+
 	private func gistHTTPBody(gr: GistRequestData) -> NSData {
 		return try! JSON(["description": "\(gr.header.description)", "public": gr.isPublic, "files": [gr.header.filename: ["content": gr.content]], ]).rawData()
 	}
-	
-	
+
+
 	private func createURLRequest(gr: GistRequestData) -> NSMutableURLRequest {
 		var request = NSMutableURLRequest()
 		if gr.updateGist {
@@ -64,18 +64,18 @@ class API_MAIN: Gist_API_P {
 			request = NSMutableURLRequest(URL: gr.connectionURL!)
 			request.HTTPMethod = "POST"
 		}
-		
+
 		request.HTTPBody = gistHTTPBody(gr)
 		request.addValue("application/vnd.github.v3+json", forHTTPHeaderField: "Accept")
-		
+
 		//	if let token = oauth.getToken() {
 		//		request.addValue("token \(token)", forHTTPHeaderField: "Authorization")
 		//	}
-		
+
 		return request
 	}
-	
-	
+
+
 	private func performWebRequest(session: NSURLSession, request dataForRequest: GistRequestData, completion: ResultType) {
 		let request = createURLRequest(dataForRequest)
 		let task = session.dataTaskWithRequest(request) {
@@ -86,12 +86,12 @@ class API_MAIN: Gist_API_P {
 					let jsonData = JSON(data: data!)
 					if let gistURL = jsonData["html_url"].URL, gistID = jsonData["id"].string {
 						print(response) //TODO:Decide which file to capture
-						
+
 						completion(.Success((url: gistURL, gid: gistID)))
 					} else {
 						completion(.Failure(.ErrorResponse("Response-json had an unexpected format, missing fields: html_url or id, statuscode=\(r.statusCode)")))
 					}
-					
+
 				default:
 					completion(.Failure(.OtherErrorResponse(r.statusCode)))
 				}
@@ -101,7 +101,7 @@ class API_MAIN: Gist_API_P {
 		}
 		task.resume()
 	}
-	
+
 	private func performWebRequest(session: NSURLSession, request dataForRequest: GistRequestData) -> SignalProducer<SuccessResponse,GistRequestReason> {
 		return SignalProducer { o, d in
 			let request = self.createURLRequest(dataForRequest)
@@ -114,13 +114,13 @@ class API_MAIN: Gist_API_P {
 						let jsonData = JSON(data: data!)
 						if let gistURL = jsonData["html_url"].URL, gistID = jsonData["id"].string {
 							print(response) //TODO:Decide which file to capture
-							
+
 							o.sendNext((url: gistURL, gid: gistID))
 							o.sendCompleted()
 						} else {
 							o.sendFailed(.ErrorResponse("Response-json had an unexpected format, missing fields: html_url or id, statuscode=\(r.statusCode)"))
 						}
-						
+
 					default:
 						o.sendFailed(.OtherErrorResponse(r.statusCode))
 					}

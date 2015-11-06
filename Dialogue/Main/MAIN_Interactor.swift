@@ -10,7 +10,7 @@ class MAIN_Interactor {
     //attached to the presenter
     var pastebufferGateway: Pastebuffer_API_P?
     //pastebuffer as a service, what about files?
-    var config: Config_P?
+    var config: AppModel_P?
 
     var recentFiles: RecentFilesArray
 

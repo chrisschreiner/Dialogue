@@ -10,6 +10,7 @@ class PREF_Presenter {
 extension PREF_Presenter: ModuleInterface_PREFERENCES {
 	func toggleSecretGists(value: Bool) {
 		interactor?.setSecretGists(value)
+		
 	}
 
 	func selectGistService(serviceIndex: Int) {
@@ -28,13 +29,13 @@ extension PREF_Presenter: ViewLifeCycle {
 //		precondition(localDatamanager != nil)
 //		precondition(output != nil)
 
-		let config = (interactor as! PREF_Interactor).config
+		let appModel = (interactor as! PREF_Interactor).appModel
 
 		populateGistsServicePopupMenu(GistService.popupMenuList())
 		populateShortenServicePopupMenu(ShortenService.popupMenuList())
-		setActiveGistService(config?.activeGistServiceIndex ?? 0)
-		setActiveShortenService(config?.activeShortenServiceIndex ?? 0)
-		setUseSecretGists(config?.secretGists ?? true)
+		setActiveGistService(appModel.activeGistServiceIndex ?? 0)
+		setActiveShortenService(appModel.activeShortenServiceIndex ?? 0)
+		setUseSecretGists(appModel.secretGists ?? true)
 	}
 }
 

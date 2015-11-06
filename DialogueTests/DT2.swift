@@ -32,7 +32,7 @@ class InteractorPostTests: XCTestCase {
         super.setUp()
 
         i = MAIN_Interactor()
-        i.config = Config()
+        i.config = AppModel()
         i.pastebufferGateway = mockPastebufferAPI("default paste content")
         i.apiGist = mockGistAPI(statusCode: 200)
     }
@@ -56,7 +56,7 @@ class InteractorPostTests: XCTestCase {
 
     func testWith2RecentFiles() {
         i.pastebufferGateway = mockPastebufferAPI("default paste content")
-		
+
         i.apiGist = mockGistAPI(statusCode: 200, responseFile: kSampleFile + "1")
         i.postGist().start()
 
@@ -74,12 +74,12 @@ class InteractorPostTests: XCTestCase {
 
 class DT2: XCTestCase {
     var i: MAIN_Interactor!
-    var config: Config_P!
+    var config: AppModel_P!
 
     override func setUp() {
         super.setUp()
 
-        config = Config() //mock?
+        config = AppModel() //mock?
 
         i = MAIN_Interactor()
         i.config = config

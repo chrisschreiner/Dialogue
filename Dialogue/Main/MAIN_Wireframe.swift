@@ -2,33 +2,39 @@ import Foundation
 
 
 class MAIN_Wireframe {
-    var interactor: MAIN_Interactor
-    var presenter: MAIN_Presenter
-    var view: MAIN_View
-    var preferencesWireframe: PREF_Wireframe?
+	var interactor: MAIN_Interactor
+	var presenter: MAIN_Presenter
+	var view: MAIN_View
+	var preferencesWireframe: PREF_Wireframe?
 
-    init(config: Config_P) {
-        interactor = MAIN_Interactor()
-        interactor.pastebufferGateway = PastebufferAPI()
-        interactor.apiGist = API_MAIN()
+	func show() {
+		view.showWindow(nil)
+	}
 
-        presenter = MAIN_Presenter()
+	init(appModel: AppModel_P) {
+		interactor = MAIN_Interactor()
+		interactor.pastebufferGateway = PastebufferAPI()
+		interactor.apiGist = API_MAIN()
 
-        view = MAIN_View()
-        view.viewLifeCycle = presenter //TODO:Think through; could this be handled by the wireframe?
-        view.eventHandler = presenter
+		presenter = MAIN_Presenter()
 
-        presenter.wireframe = self
+		view = MAIN_View()
+		view.viewLifeCycle = presenter //TODO:Think through; could this be handled by the wireframe?
+		view.eventHandler = presenter
 
-        interactor.output = presenter
-        interactor.config = config
+		presenter.wireframe = self
 
-        presenter.interactor = interactor
-        presenter.view = view
-    }
+		interactor.output = presenter
+		interactor.config = appModel
 
-    func presentPreferences() {
-        preferencesWireframe = PREF_Wireframe(config: interactor.config!)
-        preferencesWireframe?.show()
-    }
+		presenter.interactor = interactor
+		presenter.view = view
+
+		show()
+	}
+
+	func presentPreferences() {
+		preferencesWireframe = PREF_Wireframe(appModel: interactor.config!)
+		preferencesWireframe?.show()
+	}
 }

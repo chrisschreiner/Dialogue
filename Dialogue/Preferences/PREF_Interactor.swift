@@ -1,20 +1,27 @@
 class PREF_Interactor {
-	var config: Config_P?
+	var appModel: AppModel_P
 	var apiGateway: PREF_API_P?
 	var output: PREF_InteractorOutput?
+	
+	init(appModel:AppModel_P) {
+		self.appModel = appModel
+	}
 }
 
 
 extension PREF_Interactor: PREF_InteractorInput {
 	func setSecretGists(isSecret: Bool) {
-		config?.secretGists = isSecret
+		//config?.secretGists = isSecret
+		
+		appModel.userDefaults[.secretGists] = isSecret
+		
 	}
 
 	func setGistServiceIndex(index: Int) {
-		config?.activeGistServiceIndex = index
+		appModel.activeGistServiceIndex = index
 	}
 
 	func setShortenServiceIndex(index: Int) {
-		config?.activeShortenServiceIndex = index
+		appModel.activeShortenServiceIndex = index
 	}
 }

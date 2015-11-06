@@ -24,7 +24,7 @@ struct UserCredential {
 }
 
 protocol Gist_API_P {
-    func postGist(content: GistData, config: Config_P) -> GistSignalProducer
+    func postGist(content: GistData, config: AppModel_P) -> GistSignalProducer
 }
 
 
