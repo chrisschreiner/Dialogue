@@ -3,8 +3,11 @@ import ReactiveCocoa
 import Result
 
 typealias GistID = String
+
 typealias SuccessResponse = (url:NSURL, gid:GistID)
+
 typealias ResultType = Result<SuccessResponse, GistRequestReason> -> Void
+
 typealias GistSignalProducer = SignalProducer<SuccessResponse, GistRequestReason>
 
 
@@ -60,7 +63,7 @@ struct GistData {
 
 
 protocol Gist_API_P {
-    func postGist(content: GistData, config: Config_P) -> GistSignalProducer
+	func postGist(content: GistData, config: Config_P) -> GistSignalProducer
 }
 
 

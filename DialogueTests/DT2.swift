@@ -1,18 +1,20 @@
 import XCTest
 import SwiftyJSON
 
-
-func mockGistAPI(statusCode statusCode: Int = 0, responseFile: String = "http://jalla.file") -> API_MAIN {
+//Helper function for testing
+func mockGistAPI(statusCode statusCode: Int = 0, responseFile: String = "http://jalla.file", var jsonData:JSON? = nil) -> API_MAIN {
     return MockedApiForGist {
-        //let sampleURL = NSURL(string: "http://sample.url")!
-        let jsonData = JSON(["html_url": responseFile, "id": "12345678", ])
+		if jsonData  == nil {
+			jsonData = JSON(["html_url": responseFile, "id": "12345678", ])
+		}
         let urlResponse = NSHTTPURLResponse(URL: NSURL(), statusCode: statusCode, HTTPVersion: nil, headerFields: nil)
 
-        MockSession.mockResponse = (try! jsonData.rawData(), urlResponse: urlResponse, error: nil)
+        MockSession.mockResponse = (try! jsonData!.rawData(), urlResponse: urlResponse, error: nil)
         return MockSession()
     }
 }
 
+//Helper function for testing
 func mockPastebufferAPI(pasteContent: String = "") -> Pastebuffer_API_P {
     return PastebufferGatewayMock {
         return GistData(data: pasteContent)
@@ -20,11 +22,11 @@ func mockPastebufferAPI(pasteContent: String = "") -> Pastebuffer_API_P {
 }
 
 
-class PresenterInteractorTests: XCTestCase {
+let kSampleFile = "filename.ext"
 
-    let kSampleFile = "filename.ext"
+
+class InteractorPostTests: XCTestCase {
     var i: Interactor_MAIN!
-    var presenter: MAIN_Presenter_Input!
 
     override func setUp() {
         super.setUp()
@@ -46,7 +48,7 @@ class PresenterInteractorTests: XCTestCase {
 
     func testWith1RecentFile() {
         i.apiDatamanager = mockGistAPI(statusCode: 200, responseFile: kSampleFile)
-        let sp = i.postGist().start()
+        i.postGist().start()
 
         XCTAssertEqual(i.recentFiles.count, 1)
         XCTAssertEqual(i.recentFiles.last, kSampleFile)
@@ -71,9 +73,7 @@ class PresenterInteractorTests: XCTestCase {
 class DT2: XCTestCase {
     var i: Interactor_MAIN!
     var config: Config_P!
-    let sampleURL = NSURL(string: "http://sample.url")!
-    let dummyURL = NSURL(string: "http://sample.url")!
-
+	
     override func setUp() {
         super.setUp()
 
@@ -95,18 +95,12 @@ class DT2: XCTestCase {
     }
 
     func testPostGist() {
-        i.apiDatamanager = MockedApiForGist {
-            let jsonData = JSON(["html_url": self.sampleURL.absoluteString, "id": "12345678", ])
-            let urlResponse = NSHTTPURLResponse(URL: NSURL(string: "https://api.app.net/posts/stream/global")!, statusCode: 201, HTTPVersion: nil, headerFields: nil)
-
-            MockSession.mockResponse = (try! jsonData.rawData(), urlResponse: urlResponse, error: nil)
-            return MockSession()
-        }
+		i.apiDatamanager = mockGistAPI(statusCode: 201, responseFile: kSampleFile, jsonData:JSON(["html_url": kSampleFile, "id": "12345678", ]))
 
         let e = expectationWithDescription("...")
 
         i.postGist().on(next: {
-            (response: SuccessResponse) in XCTAssertEqual(response.url, self.sampleURL) //errors here, but its okay now
+            (response: SuccessResponse) in XCTAssertEqual(response.url.absoluteString, kSampleFile) //errors here, but its okay now
             e.fulfill()
         })
         .start()
@@ -115,13 +109,7 @@ class DT2: XCTestCase {
     }
 
     func testPostGistWithFailure() {
-        i.apiDatamanager = MockedApiForGist {
-            let jsonData = JSON([])
-            let urlResponse = NSHTTPURLResponse(URL: NSURL(), statusCode: 400, HTTPVersion: nil, headerFields: nil)
-
-            MockSession.mockResponse = (try! jsonData.rawData(), urlResponse: urlResponse, error: nil)
-            return MockSession()
-        }
+		i.apiDatamanager = mockGistAPI(statusCode: 400)
 
         let e = expectationWithDescription("...")
 
@@ -137,20 +125,13 @@ class DT2: XCTestCase {
     }
 
     func testPostGistWithIncompleteFields() {
-        i.apiDatamanager = MockedApiForGist {
-            let jsonData = JSON(["wrong_field_name": "", "id": "12345678", ])
-            let urlResponse = NSHTTPURLResponse(URL: NSURL(string: "https://api.app.net/posts/stream/global")!, statusCode: 201, HTTPVersion: nil, headerFields: nil)
-
-            MockSession.mockResponse = (try! jsonData.rawData(), urlResponse: urlResponse, error: nil)
-            return MockSession()
-        }
+		i.apiDatamanager = mockGistAPI(statusCode: 201, responseFile: kSampleFile, jsonData:JSON(["wrong_field_name": kSampleFile]))
 
         let e = expectationWithDescription("...")
 
         i.postGist()
         .on(failed: {
-            error in if case GistRequestReason.ErrorResponse(let s) = error {
-                print(s)
+            error in if case GistRequestReason.ErrorResponse(_) = error {
                 e.fulfill()
             }
         })
@@ -160,20 +141,14 @@ class DT2: XCTestCase {
     }
 
     func testPostGistStatusCode999() {
-        i.apiDatamanager = MockedApiForGist {
-            let jsonData = JSON([])
-            let urlResponse = NSHTTPURLResponse(URL: NSURL(), statusCode: 999, HTTPVersion: nil, headerFields: nil)
-
-            MockSession.mockResponse = (try! jsonData.rawData(), urlResponse: urlResponse, error: nil)
-            return MockSession()
-        }
+		i.apiDatamanager = mockGistAPI(statusCode: 999)
 
         let e = expectationWithDescription("...")
 
         i.postGist()
         .on(failed: {
             error in if case GistRequestReason.OtherErrorResponse(let statusCode) = error {
-                print(statusCode)
+				XCTAssertEqual(statusCode,999)
                 e.fulfill()
             }
         })

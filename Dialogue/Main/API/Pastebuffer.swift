@@ -1,6 +1,3 @@
-import Foundation
-
-
 class PastebufferAPI: Pastebuffer_API_P {
     func getContents() -> GistData {
         //TODO:Crashprone, fix
